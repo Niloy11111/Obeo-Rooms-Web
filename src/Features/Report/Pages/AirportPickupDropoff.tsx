@@ -31,14 +31,11 @@ import {
 
 const FormSchema = z.object({
   reportDate: z
-    .date({ required_error: "A date is required." })
-    .or(z.undefined())
-    .refine((val) => val !== undefined, {
-      message: "Please select a valid date",
-    }),
+    .date()
+    .refine((val) => !!val, { message: "A date is required." }),
 });
 
-const Report = () => {
+const AirportPickupDropoff = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -183,4 +180,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default AirportPickupDropoff;

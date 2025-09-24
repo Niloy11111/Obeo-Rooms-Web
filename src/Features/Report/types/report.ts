@@ -48,8 +48,3 @@ export type TQueryParam = {
   name: string;
   value: boolean | React.Key;
 };
-
-export type TSlides = {
-  url: string;
-  title: string;
-}[];

@@ -1,19 +1,14 @@
-
-import { Toaster } from 'sonner'
-import Report from './Features/Report/Pages/Report'
+import { Toaster } from "sonner";
+import AirportPickupDropoff from "./Features/Report/Pages/AirportPickupDropoff";
 
 function App() {
-
-
   return (
     <>
-  
-  <Report/>
+      <AirportPickupDropoff />
 
-  
-     <Toaster position="top-right" richColors />
+      <Toaster position="top-right" richColors />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

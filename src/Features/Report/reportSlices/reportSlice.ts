@@ -2,15 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
 import { TQueryParam } from "../types/report";
 
-
 interface InitialStateTypes {
   reportParams: TQueryParam[] | undefined;
 }
 
 export const initialState: InitialStateTypes = {
-  reportParams: {
-    name: "all",
-  },
+  reportParams: [],
 };
 
 export const reportSlice = createSlice({

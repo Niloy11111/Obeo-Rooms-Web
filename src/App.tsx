@@ -1,12 +1,14 @@
+import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
-import AirportPickupDropoff from "./Features/Report/Pages/AirportPickupDropoff";
 
 function App() {
   return (
     <>
-      <AirportPickupDropoff />
+      <div className="">
+        <Outlet></Outlet>
 
-      <Toaster position="top-right" richColors />
+        <Toaster position="top-right" richColors />
+      </div>
     </>
   );
 }

@@ -1,36 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
-    FLUSH,
-    PAUSE,
-    PERSIST,
-    persistReducer,
-    persistStore,
-    PURGE,
-    REGISTER,
-    REHYDRATE,
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  persistReducer,
+  persistStore,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import reportReducer from "../Features/Report/reportSlices/reportSlice";
 import { baseApi } from "./baseApi";
-
-
-// import globalReducer from "./features/auth/globalSlice";
-
 
 const reportPersistConfig = {
   key: "report",
   storage,
 };
 
-
 const persistedReportReducer = persistReducer(
   reportPersistConfig,
   reportReducer
 );
 
-// redux setup video
-// after intial setup in part 1 last video - 26:10
-//  then part2 -- module 27-4
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
@@ -50,11 +42,3 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const persistor = persistStore(store);
-
-// to add baseApi to store we need to add
-/**
- * [baseApi.reducerPath]: baseApi.reducer,
- * middleware: (getDefaultMiddlewares) =>
-    getDefaultMiddlewares().concat(baseApi.middleware),
- these two lines
- * */

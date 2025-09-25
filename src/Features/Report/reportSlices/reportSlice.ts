@@ -1,29 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
-import { TQueryParam } from "../types/report";
+
+import { pickupReservations } from "../Components/utils/repot";
+import { IPickUp } from "../types/report";
 
 interface InitialStateTypes {
-  reportParams: TQueryParam[] | undefined;
+  pickupInformation: IPickUp[] | undefined;
 }
 
 export const initialState: InitialStateTypes = {
-  reportParams: [],
+  pickupInformation: pickupReservations?.filter(
+    (item) => item?.status !== "completed"
+  ),
 };
 
 export const reportSlice = createSlice({
   name: "report",
   initialState,
   reducers: {
-    setReportParams: (
+    setPickupInformation: (
       state,
-      action: PayloadAction<TQueryParam[] | undefined>
+      action: PayloadAction<IPickUp[] | undefined>
     ) => {
-      state.reportParams = action.payload;
+      state.pickupInformation = action.payload;
     },
   },
 });
 
-export const { setReportParams } = reportSlice.actions;
-export const selectReportParams = (state: RootState) =>
-  state.report.reportParams;
+export const { setPickupInformation } = reportSlice.actions;
+export const selectPickupInformation = (state: RootState) =>
+  state.report.pickupInformation;
 export default reportSlice.reducer;

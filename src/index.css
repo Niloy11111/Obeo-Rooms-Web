@@ -30,6 +30,8 @@
   --breakpoint-3xl: 1920px;
   --color-lowWhite: #f9fafb;
   --color-navWhite: #f8fafc;
+
+  /* border-[#E9E9E9] */
 }
 
 @theme inline {

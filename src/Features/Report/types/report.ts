@@ -1,5 +1,4 @@
-import { BaseQueryApi } from "@reduxjs/toolkit/query";
-import React from "react";
+export type TStatus = "pending" | "approved" | "rejected" | "completed";
 
 export interface IPickUp {
   _id: string;
@@ -8,7 +7,14 @@ export interface IPickUp {
   companyInfo: string;
   flightInfo: string;
   date: string;
+  originalAmount: number;
+  adjustedAmount: number;
+  adjustmentType: string | null;
+  reason: string | null;
+  status: TStatus;
+  adjustmentDate: string | null;
 }
+
 export interface IDrop {
   _id: string;
   roomNo: string;
@@ -17,34 +23,3 @@ export interface IDrop {
   flightInfo: string;
   date: string;
 }
-
-type TError = {
-  data: {
-    message: string;
-    stack: string;
-    success: boolean;
-  };
-  status: number;
-};
-
-export type TMeta = {
-  limit: number;
-  page: number;
-  total: number;
-  totalPage: number;
-};
-
-export type TResponse<T> = {
-  data?: T;
-  error?: TError;
-  meta?: TMeta;
-  success: boolean;
-  message: string;
-};
-
-export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
-
-export type TQueryParam = {
-  name: string;
-  value: boolean | React.Key;
-};

@@ -30,71 +30,63 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { cn } from "../../../lib/utils";
-import BillAdjustmentTable from "../Components/BillAdjustmentTable";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-import { pickupReservations } from "../Components/utils/repot";
+import BillTransferTable from "../Components/BillTransferTable";
+import { billTransfers } from "../Components/utils/repot";
 import {
-  selectPickupInformation,
-  setPickupInformation,
+  selectBillTransfer,
+  setBillTransfer,
 } from "../reportSlices/reportSlice";
 
 const FormSchema = z
   .object({
-    reservationNo: z.string().optional(),
+    transferId: z.string().optional(),
     reportDate: z.date().optional(),
     status: z.string().optional(),
   })
-  .refine((data) => data.reservationNo || data.reportDate || data.status, {
-    message: "Provide Reservation No or Report Date or Status",
+  .refine((data) => data.transferId || data.reportDate || data.status, {
+    message: "Provide Transfer ID or Report Date or Status",
     path: ["_form"],
   });
 
-const BillAdjustmentReport = () => {
+const BillTransferReport = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
   const dispatch = useAppDispatch();
-  const pickupInformations = useAppSelector(selectPickupInformation);
+  const IBillTransfers = useAppSelector(selectBillTransfer);
 
   const ComponentPdf = useRef(null);
-
-  const initialFilteredPickup = pickupReservations?.filter(
-    (item) => item?.status !== "completed"
-  );
 
   const handleSearch = (data: z.infer<typeof FormSchema>) => {
     const selectedDate = data.reportDate
       ? format(data.reportDate, "yyyy-MM-dd")
       : "";
-    const reservationNo = data.reservationNo;
+    const transferId = data.transferId;
     const status = data.status?.toLowerCase();
 
-    let filtered = initialFilteredPickup;
+    let filtered = billTransfers;
 
-    if (reservationNo) {
-      filtered = filtered.filter(
-        (item) => item.reservationNo === reservationNo
-      );
+    if (transferId) {
+      filtered = filtered.filter((item) => item.transferId === transferId);
     } else if (selectedDate && status) {
       filtered = filtered.filter(
-        (item) => item.adjustmentDate === selectedDate && item.status === status
+        (item) => item.transferDate === selectedDate && item.status === status
       );
     } else if (selectedDate) {
-      filtered = filtered.filter(
-        (item) => item.adjustmentDate === selectedDate
-      );
+      filtered = filtered.filter((item) => item.transferDate === selectedDate);
     } else if (status) {
       filtered = filtered.filter((item) => item.status === status);
     }
 
-    dispatch(setPickupInformation(filtered));
+    dispatch(setBillTransfer(filtered));
     console.log("Filtered data:", filtered);
   };
 
   const handleClear = () => {
     form.reset();
-    dispatch(setPickupInformation(initialFilteredPickup));
+    dispatch(setBillTransfer(billTransfers));
   };
 
   const generatePDF = useReactToPrint({
@@ -108,8 +100,8 @@ const BillAdjustmentReport = () => {
   };
 
   useEffect(() => {
-    if (pickupInformations?.length === 0) {
-      dispatch(setPickupInformation(initialFilteredPickup));
+    if (IBillTransfers?.length === 0) {
+      dispatch(setBillTransfer(billTransfers));
     }
   }, []);
 
@@ -117,7 +109,7 @@ const BillAdjustmentReport = () => {
     <div className="font-Roboto   ">
       <div className="shadow-sm">
         <h1 className="text-xl  text-white bg-[#343a3f] py-2 pl-5">
-          Bill Adjustment Report
+          Bill Transfer Report
         </h1>
         <div className="rounded-b-sm pt-4 bg-white  px-5 pb-2">
           <Form {...form}>
@@ -191,6 +183,7 @@ const BillAdjustmentReport = () => {
                             <SelectItem value="Approved">Approved</SelectItem>
                             <SelectItem value="Pending">Pending</SelectItem>
                             <SelectItem value="Rejected">Rejected</SelectItem>
+                            <SelectItem value="Cancelled">Cancelled</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormItem>
@@ -198,14 +191,14 @@ const BillAdjustmentReport = () => {
                   />
                   <FormField
                     control={form.control}
-                    name="reservationNo"
+                    name="transferId"
                     render={({ field }) => (
                       <FormItem className="2sm:w-[150px] w-full ">
                         <FormLabel className=" font-normal text-base mt-0">
-                          Researvation No
+                          Transfer ID
                         </FormLabel>
 
-                        <Input {...field} type="text" placeholder="RES001235" />
+                        <Input {...field} type="text" placeholder="BT001235" />
                       </FormItem>
                     )}
                   />
@@ -257,14 +250,14 @@ const BillAdjustmentReport = () => {
             className="border-t pt-2 border-[#E9E9E9]  mb-2
           text-xl font-bold text-[#343a40]   "
           >
-            Bill Adjustment Report
+            Bill Transfer Report
           </h1>
 
-          <BillAdjustmentTable pickupReservations={pickupInformations || []} />
+          <BillTransferTable billTransfers={IBillTransfers || []} />
         </div>
       </div>
     </div>
   );
 };
 
-export default BillAdjustmentReport;
+export default BillTransferReport;

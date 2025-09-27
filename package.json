@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "commit": "git add . && git commit -m \" develop Bill Adjustment Page \" && git push"
+    "commit": "git add . && git commit -m \" develop Bill Transfer Page showing dynamic data \" && git push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -28,6 +28,7 @@
     "react": "^18.3.1",
     "react-day-picker": "^9.11.0",
     "react-dom": "^18.3.1",
+    "react-favicon": "^2.0.7",
     "react-hook-form": "^7.63.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.2",

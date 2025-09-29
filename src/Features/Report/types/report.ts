@@ -1,5 +1,4 @@
 export type TStatus = "pending" | "approved" | "rejected" | "completed";
-export type TransferStatus = "pending" | "approved" | "rejected" | "cancelled";
 
 export interface IPickUp {
   _id: string;
@@ -15,23 +14,17 @@ export interface IPickUp {
   status: TStatus;
   adjustmentDate: string | null;
 }
+
 export interface IBillTransfer {
-  transferId: string;
-  sourceInfo: {
-    guestInfo: string;
-    companyInfo: string;
-    reservationNo: string;
-  };
-  destinationInfo: {
-    guestInfo: string;
-    companyInfo: string;
-    reservationNo: string;
-  };
-  transferAmount: number;
-  reason: string;
-  status: TransferStatus;
-  transferDate: string;
-  processedBy: string;
+  _id: string;
+  date: string;
+  type: string;
+  previousRegistrationId: string;
+  previousRoomNumber: string;
+  transferredBillRegistrationId: string;
+  transferredBillRoomNumber: string;
+  amount: number;
+  remarks: string;
 }
 
 export interface IDrop {

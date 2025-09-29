@@ -16,19 +16,11 @@ import {
   FormItem,
   FormLabel,
 } from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "../../../components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../../components/ui/select";
 import { cn } from "../../../lib/utils";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
@@ -39,17 +31,15 @@ import {
   setBillTransfer,
 } from "../reportSlices/reportSlice";
 
-const FormSchema = z
+export const FormSchema = z
   .object({
-    transferId: z.string().optional(),
-    reportDate: z.date().optional(),
-    status: z.string().optional(),
+    fromDate: z.date().optional(),
+    toDate: z.date().optional(),
   })
-  .refine((data) => data.transferId || data.reportDate || data.status, {
-    message: "Provide Transfer ID or Report Date or Status",
+  .refine((data) => data.fromDate || data.toDate, {
+    message: "Please Provide From Date or To Date",
     path: ["_form"],
   });
-
 const BillTransferReport = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -60,24 +50,19 @@ const BillTransferReport = () => {
   const ComponentPdf = useRef(null);
 
   const handleSearch = (data: z.infer<typeof FormSchema>) => {
-    const selectedDate = data.reportDate
-      ? format(data.reportDate, "yyyy-MM-dd")
-      : "";
-    const transferId = data.transferId;
-    const status = data.status?.toLowerCase();
+    const fromDate = data.fromDate ? format(data.fromDate, "yyyy-MM-dd") : "";
+    const toDate = data.toDate ? format(data.toDate, "yyyy-MM-dd") : "";
 
     let filtered = billTransfers;
 
-    if (transferId) {
-      filtered = filtered.filter((item) => item.transferId === transferId);
-    } else if (selectedDate && status) {
+    if (fromDate && toDate) {
       filtered = filtered.filter(
-        (item) => item.transferDate === selectedDate && item.status === status
+        (item) => item.date >= fromDate && item.date <= toDate
       );
-    } else if (selectedDate) {
-      filtered = filtered.filter((item) => item.transferDate === selectedDate);
-    } else if (status) {
-      filtered = filtered.filter((item) => item.status === status);
+    } else if (fromDate) {
+      filtered = filtered.filter((item) => item.date >= fromDate);
+    } else if (toDate) {
+      filtered = filtered.filter((item) => item.date <= toDate);
     }
 
     dispatch(setBillTransfer(filtered));
@@ -109,7 +94,7 @@ const BillTransferReport = () => {
     <div className="font-Roboto   ">
       <div className="shadow-sm">
         <h1 className="text-xl  text-white bg-[#343a3f] py-2 pl-5">
-          Bill Transfer Report
+          Bill Transfer Reports
         </h1>
         <div className="rounded-b-sm pt-4 bg-white  px-5 pb-2">
           <Form {...form}>
@@ -117,18 +102,18 @@ const BillTransferReport = () => {
               <div className="flex 2sm:flex-row flex-col items-end gap-5">
                 <FormField
                   control={form.control}
-                  name="reportDate"
+                  name="fromDate"
                   render={({ field }) => (
-                    <FormItem className=" flex 2sm:max-w-max w-full flex-col ">
+                    <FormItem className=" flex 2lg:max-w-max w-full flex-col ">
                       <FormLabel className="font-normal text-base">
-                        Report Date
+                        From Date
                       </FormLabel>
                       <Popover>
                         <PopoverTrigger>
                           <FormControl>
                             <div
                               className={cn(
-                                "flex 2sm:w-[340px] w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
+                                "flex 2lg:w-[520px]  w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -161,51 +146,55 @@ const BillTransferReport = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex  xs:flex-row flex-col gap-5 w-full">
-                  <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                      <FormItem className="2sm:w-[150px] w-full ">
-                        <FormLabel className="font-normal text-base mt-0">
-                          Status
-                        </FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                <FormField
+                  control={form.control}
+                  name="toDate"
+                  render={({ field }) => (
+                    <FormItem className=" flex 2lg:max-w-max w-full flex-col ">
+                      <FormLabel className="font-normal text-base">
+                        To Date
+                      </FormLabel>
+                      <Popover>
+                        <PopoverTrigger>
                           <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select Any" />
-                            </SelectTrigger>
+                            <div
+                              className={cn(
+                                "flex 2lg:w-[520px]  w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span className="text-sm font-Inter">
+                                  {format(new Date(), "yyyy-MM-dd")}
+                                </span>
+                              )}
+                              <CalendarIcon className="h-4 w-4 opacity-50" />
+                            </div>
                           </FormControl>
-                          <SelectContent className="border-[#E9E9E9]">
-                            <SelectItem value="Approved">Approved</SelectItem>
-                            <SelectItem value="Pending">Pending</SelectItem>
-                            <SelectItem value="Rejected">Rejected</SelectItem>
-                            <SelectItem value="Cancelled">Cancelled</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="transferId"
-                    render={({ field }) => (
-                      <FormItem className="2sm:w-[150px] w-full ">
-                        <FormLabel className=" font-normal text-base mt-0">
-                          Transfer ID
-                        </FormLabel>
-
-                        <Input {...field} type="text" placeholder="BT001235" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="border border-[#E9E9E9] w-auto p-0"
+                          align="start"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            captionLayout="dropdown"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <p className="text-red-500 text-sm my-2  ">
+              <p className="text-red-500 text-sm my-2">
                 {form?.formState?.errors?._form?.message}
               </p>
 
@@ -243,16 +232,9 @@ const BillTransferReport = () => {
 
       <div
         ref={ComponentPdf}
-        className="pdf-container  mt-3 pt-4 max-h-[78vh] overflow-y-auto bg-white shadow-sm pb-2 rounded-md w-full"
+        className="pdf-container  mt-3 pt-2 max-h-[78vh] overflow-y-auto bg-white shadow-sm pb-2 rounded-md w-full"
       >
         <div className="ml-6 mr-4">
-          <h1
-            className="border-t pt-2 border-[#E9E9E9]  mb-2
-          text-xl font-bold text-[#343a40]   "
-          >
-            Bill Transfer Report
-          </h1>
-
           <BillTransferTable billTransfers={IBillTransfers || []} />
         </div>
       </div>

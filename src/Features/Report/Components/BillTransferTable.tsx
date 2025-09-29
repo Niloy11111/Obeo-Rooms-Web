@@ -9,78 +9,62 @@ const BillTransferTable = ({
 }) => {
   const billTransferColumns: ColumnDef<IBillTransfer>[] = [
     {
-      accessorKey: "transferId",
-      header: "Transfer ID",
+      accessorKey: "date",
+      header: "Date",
       cell: ({ row }) => (
-        <div className=" flex items-center max-w-max mx-auto">
-          <span className="truncate">{row?.original?.transferId}</span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "sourceInfo",
-      header: "Source Information",
-      cell: ({ row }) => (
-        <div className="flex flex-col ">
-          <p className="">{row?.original?.sourceInfo.guestInfo}</p>
-          <p className="">{row?.original?.sourceInfo.companyInfo}</p>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "destinationInfo",
-      header: "Destination Information",
-      cell: ({ row }) => (
-        <div className="flex flex-col">
-          <p className="">{row?.original?.destinationInfo?.guestInfo}</p>
-          <p className="">{row?.original?.destinationInfo?.companyInfo}</p>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "transferAmount",
-      header: "Transfer Amount",
-      cell: ({ row }) => <span>{row.original?.transferAmount}</span>,
-    },
-
-    {
-      accessorKey: "reason",
-      header: "Reason",
-      cell: ({ row }) => (
-        <span className="capitalize">{row.original?.reason}</span>
+        <span className="truncate">{row?.original?.date}</span>
       ),
     },
 
     {
-      accessorKey: "status",
-      header: "Status",
+      accessorKey: "type",
+      header: "Type",
       cell: ({ row }) => (
-        <span
-          className={`capitalize font-medium ${
-            row.original?.status === "pending"
-              ? "text-yellow-500"
-              : row.original?.status === "approved"
-              ? "text-green-500"
-              : row.original?.status === "rejected"
-              ? "text-red-500"
-              : row.original?.status === "cancelled"
-              ? "text-orange-500"
-              : "text-gray-500"
-          }`}
-        >
-          {row.original?.status}
+        <span className="truncate">{row?.original?.type}</span>
+      ),
+    },
+    {
+      accessorKey: "previousRegistrationId",
+      header: "Previous Registration ID",
+      cell: ({ row }) => <span>{row.original?.previousRegistrationId}</span>,
+    },
+
+    {
+      accessorKey: "previousRoomNumber",
+      header: "Previous Room Number",
+      cell: ({ row }) => (
+        <span className="capitalize">{row.original?.previousRoomNumber}</span>
+      ),
+    },
+
+    {
+      accessorKey: "transferredBillRegistrationId",
+      header: "Transfered Bill Registration ID",
+      cell: ({ row }) => (
+        <span className="capitalize">
+          {row.original?.transferredBillRegistrationId}
         </span>
       ),
     },
     {
-      accessorKey: "transferDate",
-      header: "	Transfer Date",
-      cell: ({ row }) => <span className="">{row.original?.transferDate}</span>,
+      accessorKey: "transferredBillRoomNumber",
+      header: "Transfered Bill Room Number",
+      cell: ({ row }) => (
+        <span className="">{row.original?.transferredBillRoomNumber}</span>
+      ),
     },
     {
-      accessorKey: "processedBy",
-      header: "Processed By",
-      cell: ({ row }) => <span className="">{row.original?.processedBy}</span>,
+      accessorKey: "amount",
+      header: "Amount",
+      cell: ({ row }) => <span className="">{row.original?.amount}</span>,
+    },
+
+    {
+      accessorKey: "remarks",
+      header: "Remarks",
+      cell: ({ row }) => (
+        <span className="truncate">{row?.original?.remarks}</span>
+      ),
     },
   ];
 

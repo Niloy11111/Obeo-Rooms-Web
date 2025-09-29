@@ -40,7 +40,9 @@ export function RTable<TData, TValue>({
           <TableRow className="border-b">
             <TableHead
               colSpan={columns.length}
-              className="text-center text-[12px]  text-white "
+              className={`text-center text-[12px]  text-white ${
+                name === "billTransferReport" ? "hidden" : ""
+              }`}
             >
               {name === "pickup"
                 ? "Airport Pick Up Information"
@@ -55,7 +57,11 @@ export function RTable<TData, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-white text-center border-r text-[12px] max-h-max"
+                    className={`text-white   text-[12px] ${
+                      name === "billTransferReport"
+                        ? "text-left pl-1 border-b-0 border-[#343a40]  border-r-[#454d55]"
+                        : "text-center border border-[#e4e5e7]"
+                    }`}
                   >
                     {header.isPlaceholder
                       ? null
@@ -73,7 +79,9 @@ export function RTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="  text-center hover:bg-[#17a2b8]/5"
+                className={`${
+                  name === "billTransferReport" ? "text-left " : "text-center"
+                } hover:bg-[#17a2b8]/5 `}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

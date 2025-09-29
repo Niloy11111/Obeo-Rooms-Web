@@ -99,7 +99,7 @@ const BillTransferReport = () => {
         <div className="rounded-b-sm pt-4 bg-white  px-5 pb-2">
           <Form {...form}>
             <form>
-              <div className="flex 2sm:flex-row flex-col items-end gap-5">
+              <div className="flex 2sm:flex-row flex-col items-end 2lg:gap-5 gap-3">
                 <FormField
                   control={form.control}
                   name="fromDate"

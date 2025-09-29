@@ -122,12 +122,12 @@ const BillAdjustmentReport = () => {
         <div className="rounded-b-sm pt-4 bg-white  px-5 pb-2">
           <Form {...form}>
             <form>
-              <div className="flex 2sm:flex-row flex-col items-end gap-5">
+              <div className="flex lg:flex-row flex-col items-end 2lg:gap-5 gap-3">
                 <FormField
                   control={form.control}
                   name="reportDate"
                   render={({ field }) => (
-                    <FormItem className=" flex 2sm:max-w-max w-full flex-col ">
+                    <FormItem className=" flex 2lg:max-w-max w-full flex-col ">
                       <FormLabel className="font-normal text-base">
                         Report Date
                       </FormLabel>
@@ -136,7 +136,7 @@ const BillAdjustmentReport = () => {
                           <FormControl>
                             <div
                               className={cn(
-                                "flex 2sm:w-[340px] w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
+                                "flex 2lg:w-[520px] w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
                                 !field.value && "text-muted-foreground"
                               )}
                             >
@@ -169,12 +169,12 @@ const BillAdjustmentReport = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex  xs:flex-row flex-col gap-5 w-full">
+                <div className="flex  xs:flex-row flex-col 2lg:gap-5 gap-3  w-full">
                   <FormField
                     control={form.control}
                     name="status"
                     render={({ field }) => (
-                      <FormItem className="2sm:w-[150px] w-full ">
+                      <FormItem className="2lg:w-[260px] w-full ">
                         <FormLabel className="font-normal text-base mt-0">
                           Status
                         </FormLabel>
@@ -200,7 +200,7 @@ const BillAdjustmentReport = () => {
                     control={form.control}
                     name="reservationNo"
                     render={({ field }) => (
-                      <FormItem className="2sm:w-[150px] w-full ">
+                      <FormItem className="2lg:w-[260px] w-full ">
                         <FormLabel className=" font-normal text-base mt-0">
                           Researvation No
                         </FormLabel>

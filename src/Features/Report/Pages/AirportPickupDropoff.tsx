@@ -91,7 +91,7 @@ const AirportPickupDropoff = () => {
                         <FormControl>
                           <div
                             className={cn(
-                              "flex sm:w-[540px] w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
+                              "flex md:w-[520px] w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between  border border-[#E9E9E9] px-3 py-2 cursor-pointer text-sm font-Inter",
                               !field.value && "text-muted-foreground"
                             )}
                           >

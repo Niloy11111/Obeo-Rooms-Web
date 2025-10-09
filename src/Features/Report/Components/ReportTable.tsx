@@ -2,12 +2,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { IDrop, IPickUp } from "../types/report";
 import { RTable } from "./RTable/RTable";
 const ReportTable = ({
-  pickupReservations,
-  dropReservations,
+  pickupInformations,
+  dropOffInformation,
 }: {
-  pickupReservations: IPickUp[];
-  dropReservations: IDrop[];
+  pickupInformations: IPickUp[];
+  dropOffInformation: IDrop[];
 }) => {
+  console.log("from sdf", pickupInformations);
+
   const pickUpColumns: ColumnDef<IPickUp>[] = [
     {
       accessorKey: "reservationsNo",
@@ -73,14 +75,14 @@ const ReportTable = ({
           <RTable
             name="pickup"
             columns={pickUpColumns}
-            data={pickupReservations || []}
+            data={pickupInformations || []}
           />
         </div>
         <div className="flex-1">
           <RTable
             name="drop"
             columns={dropColumns}
-            data={dropReservations || []}
+            data={dropOffInformation || []}
           />
         </div>
       </div>

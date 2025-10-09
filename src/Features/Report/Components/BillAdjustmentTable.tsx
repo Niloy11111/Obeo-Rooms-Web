@@ -2,9 +2,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { IPickUp } from "../types/report";
 import { RTable } from "./RTable/RTable";
 const BillAdjustmentTable = ({
-  pickupReservations,
+  pickupInformation,
 }: {
-  pickupReservations: IPickUp[];
+  pickupInformation: IPickUp[];
 }) => {
   const billAdjustedColumns: ColumnDef<IPickUp>[] = [
     {
@@ -86,7 +86,7 @@ const BillAdjustmentTable = ({
           <RTable
             name="pickup"
             columns={billAdjustedColumns}
-            data={pickupReservations || []}
+            data={pickupInformation || []}
           />
         </div>
       </div>

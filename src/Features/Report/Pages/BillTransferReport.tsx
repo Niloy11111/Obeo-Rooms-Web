@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,6 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../../../components/ui/form";
 import {
   Popover,
@@ -25,53 +26,95 @@ import { cn } from "../../../lib/utils";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import BillTransferTable from "../Components/BillTransferTable";
-import { billTransfers } from "../Components/utils/repot";
+
+import useBillTransfers from "../Components/hooks/useBillTransfers";
 import {
   selectBillTransfer,
   setBillTransfer,
 } from "../reportSlices/reportSlice";
+import { IBillTransfer } from "../types/report";
 
-export const FormSchema = z
+const FormSchema = z
   .object({
-    fromDate: z.date().optional(),
-    toDate: z.date().optional(),
+    fromDate: z
+      .date()
+      .optional()
+      .refine((val) => val !== undefined, {
+        message: "Please select a from date",
+      }),
+    toDate: z
+      .date()
+      .optional()
+      .refine((val) => val !== undefined, {
+        message: "Please select a to date",
+      }),
   })
-  .refine((data) => data.fromDate || data.toDate, {
-    message: "Please Provide From Date or To Date",
-    path: ["_form"],
+  .superRefine((data, ctx) => {
+    const hasValue = data.fromDate || data.toDate;
+
+    // If at least one field has value, remove field errors
+    if (hasValue) {
+      ctx.issues = [];
+    }
   });
+
 const BillTransferReport = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+
+  const [originalBillTransfers, setOriginalBillTransfers] = useState<
+    IBillTransfer[]
+  >([]);
   const dispatch = useAppDispatch();
-  const IBillTransfers = useAppSelector(selectBillTransfer);
-
   const ComponentPdf = useRef(null);
+  const billTransfers = useAppSelector(selectBillTransfer);
+  const { data } = useBillTransfers("/billTransfer.json");
 
-  const handleSearch = (data: z.infer<typeof FormSchema>) => {
-    const fromDate = data.fromDate ? format(data.fromDate, "yyyy-MM-dd") : "";
-    const toDate = data.toDate ? format(data.toDate, "yyyy-MM-dd") : "";
+  useEffect(() => {
+    if (data.length > 0) {
+      setOriginalBillTransfers(data);
 
-    let filtered = billTransfers;
-
-    if (fromDate && toDate) {
-      filtered = filtered.filter(
-        (item) => item.date >= fromDate && item.date <= toDate
-      );
-    } else if (fromDate) {
-      filtered = filtered.filter((item) => item.date >= fromDate);
-    } else if (toDate) {
-      filtered = filtered.filter((item) => item.date <= toDate);
+      if (!billTransfers) {
+        dispatch(setBillTransfer(data));
+      }
     }
+  }, [data, dispatch, billTransfers]);
 
-    dispatch(setBillTransfer(filtered));
-    console.log("Filtered data:", filtered);
+  const onSubmitHandleSearch = async (data: z.infer<typeof FormSchema>) => {
+    try {
+      const fromDate = data.fromDate ? format(data.fromDate, "yyyy-MM-dd") : "";
+      const toDate = data.toDate ? format(data.toDate, "yyyy-MM-dd") : "";
+
+      let filtered = originalBillTransfers;
+
+      if (fromDate && toDate) {
+        filtered = filtered.filter(
+          (item) => item.date >= fromDate && item.date <= toDate
+        );
+      } else if (fromDate) {
+        filtered = filtered.filter((item) => item.date >= fromDate);
+      } else if (toDate) {
+        filtered = filtered.filter((item) => item.date <= toDate);
+      }
+
+      dispatch(setBillTransfer(filtered));
+      console.log("Filtered data:", filtered);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+
+      throw error;
+    }
   };
 
-  const handleClear = () => {
-    form.reset();
-    dispatch(setBillTransfer(billTransfers));
+  const onSubmitHandleClear = async () => {
+    try {
+      form.reset();
+      dispatch(setBillTransfer(originalBillTransfers));
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      throw error;
+    }
   };
 
   const generatePDF = useReactToPrint({
@@ -84,14 +127,8 @@ const BillTransferReport = () => {
     generatePDF();
   };
 
-  useEffect(() => {
-    if (IBillTransfers?.length === 0) {
-      dispatch(setBillTransfer(billTransfers));
-    }
-  }, []);
-
   return (
-    <div className="font-Roboto   ">
+    <div className="font-Roboto    ">
       <div className="shadow-sm">
         <h1 className="text-xl  text-white bg-[#343a3f] py-2 pl-5">
           Bill Transfer Reports
@@ -99,7 +136,7 @@ const BillTransferReport = () => {
         <div className="rounded-b-sm pt-4 bg-white  px-5 pb-2">
           <Form {...form}>
             <form>
-              <div className="flex 2sm:flex-row flex-col items-end 2lg:gap-5 gap-3">
+              <div className=" flex 2sm:flex-row flex-col items-end 2lg:gap-5 gap-3">
                 <FormField
                   control={form.control}
                   name="fromDate"
@@ -143,6 +180,7 @@ const BillTransferReport = () => {
                           />
                         </PopoverContent>
                       </Popover>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -189,21 +227,18 @@ const BillTransferReport = () => {
                           />
                         </PopoverContent>
                       </Popover>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <p className="text-red-500 text-sm my-2">
-                {form?.formState?.errors?._form?.message}
-              </p>
-
               <div className="flex gap-2 xs:mt-2 xs:mb-0 mt-5 mb-3 ">
                 <Button
                   className="bg-[#0069d9] hover:bg-[#0069d9]/80 h-[35px]rounded-[4px] cursor-pointer
   font-normal "
-                  type="button"
-                  onClick={form.handleSubmit(handleSearch)}
+                  type="submit"
+                  onClick={form.handleSubmit(onSubmitHandleSearch)}
                 >
                   Search
                 </Button>
@@ -212,7 +247,7 @@ const BillTransferReport = () => {
                   className="bg-[#343a40] hover:bg-[#343a40]/80 h-[35px] rounded-[4px] cursor-pointer
   font-normal"
                   type="button"
-                  onClick={handleClear}
+                  onClick={onSubmitHandleClear}
                 >
                   Clear
                 </Button>
@@ -235,7 +270,7 @@ const BillTransferReport = () => {
         className="pdf-container  mt-3 pt-2 max-h-[78vh] overflow-y-auto bg-white shadow-sm pb-2 rounded-md w-full"
       >
         <div className="ml-6 mr-4">
-          <BillTransferTable billTransfers={IBillTransfers || []} />
+          <BillTransferTable billTransfers={billTransfers || []} />
         </div>
       </div>
     </div>

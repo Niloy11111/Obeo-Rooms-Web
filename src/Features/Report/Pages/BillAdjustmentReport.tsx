@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -15,6 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
 import {
@@ -33,68 +34,113 @@ import { cn } from "../../../lib/utils";
 import BillAdjustmentTable from "../Components/BillAdjustmentTable";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-import { pickupReservations } from "../Components/utils/repot";
+
+import usePickupReservation from "../Components/hooks/usePickupReservation";
 import {
   selectPickupInformation,
   setPickupInformation,
 } from "../reportSlices/reportSlice";
+import { IPickUp } from "../types/report";
 
 const FormSchema = z
   .object({
-    reservationNo: z.string().optional(),
-    reportDate: z.date().optional(),
-    status: z.string().optional(),
+    reservationNo: z
+      .string()
+      .optional()
+      .refine((val) => val !== undefined, {
+        message: "Please select a reservationNo date",
+      }),
+    reportDate: z
+      .date()
+      .optional()
+      .refine((val) => val !== undefined, {
+        message: "Please select a reportDate",
+      }),
+    status: z
+      .string()
+      .optional()
+      .refine((val) => val !== undefined, {
+        message: "Please select a status",
+      }),
   })
-  .refine((data) => data.reservationNo || data.reportDate || data.status, {
-    message: "Provide Reservation No or Report Date or Status",
-    path: ["_form"],
+  .superRefine((data, ctx) => {
+    const hasValue = data.reservationNo || data.reportDate || data.status;
+
+    // If at least one field has value, remove all field errors
+    if (hasValue) {
+      ctx.issues = [];
+    }
   });
 
 const BillAdjustmentReport = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
-  const dispatch = useAppDispatch();
-  const pickupInformations = useAppSelector(selectPickupInformation);
 
+  const dispatch = useAppDispatch();
   const ComponentPdf = useRef(null);
 
-  const initialFilteredPickup = pickupReservations?.filter(
-    (item) => item?.status !== "completed"
-  );
+  const [originalPickupInformation, setOriginalPickupInformation] = useState<
+    IPickUp[]
+  >([]);
 
-  const handleSearch = (data: z.infer<typeof FormSchema>) => {
-    const selectedDate = data.reportDate
-      ? format(data.reportDate, "yyyy-MM-dd")
-      : "";
-    const reservationNo = data.reservationNo;
-    const status = data.status?.toLowerCase();
+  const { data } = usePickupReservation("/pickupReservation.json");
+  const pickupInformation = useAppSelector(selectPickupInformation);
 
-    let filtered = initialFilteredPickup;
+  useEffect(() => {
+    if (data.length > 0) {
+      setOriginalPickupInformation(data);
 
-    if (reservationNo) {
-      filtered = filtered.filter(
-        (item) => item.reservationNo === reservationNo
-      );
-    } else if (selectedDate && status) {
-      filtered = filtered.filter(
-        (item) => item.adjustmentDate === selectedDate && item.status === status
-      );
-    } else if (selectedDate) {
-      filtered = filtered.filter(
-        (item) => item.adjustmentDate === selectedDate
-      );
-    } else if (status) {
-      filtered = filtered.filter((item) => item.status === status);
+      if (!pickupInformation) {
+        dispatch(setPickupInformation(data));
+      }
     }
+  }, [data, dispatch, pickupInformation]);
 
-    dispatch(setPickupInformation(filtered));
-    console.log("Filtered data:", filtered);
+  const onSubmitHandleSearch = async (values: z.infer<typeof FormSchema>) => {
+    try {
+      // Handle Search
+      const selectedDate = values.reportDate
+        ? format(values.reportDate, "yyyy-MM-dd")
+        : "";
+      const reservationNo = values.reservationNo;
+      const status = values.status?.toLowerCase();
+
+      let filtered = originalPickupInformation as IPickUp[];
+
+      if (reservationNo) {
+        filtered = filtered.filter(
+          (item) => item?.reservationNo === reservationNo
+        );
+      } else if (selectedDate && status) {
+        filtered = filtered.filter(
+          (item) =>
+            item?.adjustmentDate === selectedDate && item.status === status
+        );
+      } else if (selectedDate) {
+        filtered = filtered.filter(
+          (item) => item?.adjustmentDate === selectedDate
+        );
+      } else if (status) {
+        filtered = filtered.filter((item) => item.status === status);
+      }
+
+      dispatch(setPickupInformation(filtered));
+    } catch (error) {
+      console.error("Someting went wrong", error);
+
+      throw error;
+    }
   };
 
-  const handleClear = () => {
-    form.reset();
-    dispatch(setPickupInformation(initialFilteredPickup));
+  const onSubmitHandleClear = async () => {
+    try {
+      form.reset();
+      dispatch(setPickupInformation(originalPickupInformation));
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      throw error;
+    }
   };
 
   const generatePDF = useReactToPrint({
@@ -106,12 +152,6 @@ const BillAdjustmentReport = () => {
   const handlePrint = () => {
     generatePDF();
   };
-
-  useEffect(() => {
-    if (pickupInformations?.length === 0) {
-      dispatch(setPickupInformation(initialFilteredPickup));
-    }
-  }, []);
 
   return (
     <div className="font-Roboto   ">
@@ -166,6 +206,8 @@ const BillAdjustmentReport = () => {
                           />
                         </PopoverContent>
                       </Popover>
+
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -193,6 +235,7 @@ const BillAdjustmentReport = () => {
                             <SelectItem value="Rejected">Rejected</SelectItem>
                           </SelectContent>
                         </Select>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -206,31 +249,26 @@ const BillAdjustmentReport = () => {
                         </FormLabel>
 
                         <Input {...field} type="text" placeholder="RES001235" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
               </div>
 
-              <p className="text-red-500 text-sm my-2  ">
-                {form?.formState?.errors?._form?.message}
-              </p>
-
               <div className="flex gap-2 xs:mt-2 xs:mb-0 mt-5 mb-3 ">
                 <Button
-                  className="bg-[#0069d9] hover:bg-[#0069d9]/80 h-[35px]rounded-[4px] cursor-pointer
-  font-normal "
-                  type="button"
-                  onClick={form.handleSubmit(handleSearch)}
+                  className="bg-[#0069d9] hover:bg-[#0069d9]/80 h-[35px] rounded-[4px] cursor-pointer font-normal"
+                  type="submit"
+                  onClick={form.handleSubmit(onSubmitHandleSearch)}
                 >
                   Search
                 </Button>
 
                 <Button
-                  className="bg-[#343a40] hover:bg-[#343a40]/80 h-[35px] rounded-[4px] cursor-pointer
-  font-normal"
+                  className="bg-[#343a40] hover:bg-[#343a40]/80 h-[35px] rounded-[4px] cursor-pointer font-normal"
                   type="button"
-                  onClick={handleClear}
+                  onClick={onSubmitHandleClear}
                 >
                   Clear
                 </Button>
@@ -260,7 +298,7 @@ const BillAdjustmentReport = () => {
             Bill Adjustment Report
           </h1>
 
-          <BillAdjustmentTable pickupReservations={pickupInformations || []} />
+          <BillAdjustmentTable pickupInformation={pickupInformation || []} />
         </div>
       </div>
     </div>

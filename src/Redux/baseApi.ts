@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -6,7 +7,6 @@ import {
   FetchArgs,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import { toast } from "sonner";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
@@ -25,10 +25,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   const result = await baseQuery(args, api, extraOptions);
 
   if (result.error?.status == 404) {
-    toast.error(result?.error?.data?.message);
+    // toast.error(result?.error?.data?.message);
   }
   if (result.error?.status == 403) {
-    toast.error(result?.error?.data?.message);
+    // toast.error(result?.error?.data?.message);
   }
 
   return result;

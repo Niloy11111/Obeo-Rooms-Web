@@ -1,0 +1,101 @@
+[
+  {
+    "_id": "1",
+    "date": "2025-09-01",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001234",
+    "previousRoomNumber": "101",
+    "transferredBillRegistrationId": "RES001235",
+    "transferredBillRoomNumber": "205",
+    "amount": 120.0,
+    "remarks": "Shared ride transfer"
+  },
+  {
+    "_id": "2",
+    "date": "2025-09-03",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001240",
+    "previousRoomNumber": "714",
+    "transferredBillRegistrationId": "RES001241",
+    "transferredBillRoomNumber": "825",
+    "amount": 200.0,
+    "remarks": "Corporate expense transfer"
+  },
+  {
+    "_id": "3",
+    "date": "2025-09-03",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001242",
+    "previousRoomNumber": "907",
+    "transferredBillRegistrationId": "RES001240",
+    "transferredBillRoomNumber": "714",
+    "amount": 170.0,
+    "remarks": "Conference group charges"
+  },
+  {
+    "_id": "4",
+    "date": "2025-09-04",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001243",
+    "previousRoomNumber": "1103",
+    "transferredBillRegistrationId": "RES001245",
+    "transferredBillRoomNumber": "1308",
+    "amount": 120.0,
+    "remarks": "VIP guest bill merge"
+  },
+  {
+    "_id": "5",
+    "date": "2025-09-05",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001246",
+    "previousRoomNumber": "1421",
+    "transferredBillRegistrationId": "RES001247",
+    "transferredBillRoomNumber": "1506",
+    "amount": 160.0,
+    "remarks": "Shared project cost"
+  },
+  {
+    "_id": "6",
+    "date": "2025-09-17",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001268",
+    "previousRoomNumber": "3784",
+    "transferredBillRegistrationId": "RES001269",
+    "transferredBillRoomNumber": "3895",
+    "amount": 120.0,
+    "remarks": "Shared accommodation cost"
+  },
+  {
+    "_id": "7",
+    "date": "2025-09-19",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001270",
+    "previousRoomNumber": "3908",
+    "transferredBillRegistrationId": "RES001268",
+    "transferredBillRoomNumber": "3784",
+    "amount": 120.0,
+    "remarks": "AI group charges"
+  },
+  {
+    "_id": "8",
+    "date": "2025-09-20",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001271",
+    "previousRoomNumber": "4012",
+    "transferredBillRegistrationId": "RES001272",
+    "transferredBillRoomNumber": "4124",
+    "amount": 120.0,
+    "remarks": "VIP bill merged"
+  },
+  {
+    "_id": "9",
+    "date": "2025-09-22",
+    "type": "Room Bill",
+    "previousRegistrationId": "RES001273",
+    "previousRoomNumber": "4236",
+    "transferredBillRegistrationId": "RES001274",
+    "transferredBillRoomNumber": "4348",
+    "amount": 120.0,
+    "remarks": "Shared project transfer"
+  }
+]

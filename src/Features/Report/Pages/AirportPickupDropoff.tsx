@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,15 +24,16 @@ import {
 } from "../../../components/ui/popover";
 import { cn } from "../../../lib/utils";
 import ReportTable from "../Components/ReportTable";
-import {
-  dropReservations,
-  pickupReservations,
-} from "../Components/utils/repot";
+import useDropOffReservation from "../Components/hooks/useDropOffReservation";
+import usePickupReservation from "../Components/hooks/usePickupReservation";
 
 const FormSchema = z.object({
   reportDate: z
     .date()
-    .refine((val) => !!val, { message: "A date is required." }),
+    .optional()
+    .refine((val) => val !== undefined, {
+      message: "Please select a reportDate",
+    }),
 });
 
 const AirportPickupDropoff = () => {
@@ -41,23 +42,50 @@ const AirportPickupDropoff = () => {
   });
 
   const ComponentPdf = useRef(null);
-  const [filteredPickup, setFilteredPickup] = useState(pickupReservations);
-  const [filteredDrop, setFilteredDrop] = useState(dropReservations);
 
-  const handleSearch = (data: z.infer<typeof FormSchema>) => {
-    const selectedDate = format(data.reportDate, "yyyy-MM-dd");
-    setFilteredPickup(
-      pickupReservations.filter((item) => item.date === selectedDate)
-    );
-    setFilteredDrop(
-      dropReservations.filter((item) => item.date === selectedDate)
-    );
+  const { data: pickupInformations } = usePickupReservation(
+    "/pickupReservation.json",
+    false
+  );
+  const { data: dropOffInformation } = useDropOffReservation(
+    "/dropOffReservation.json"
+  );
+  const [filteredPickup, setFilteredPickup] = useState(pickupInformations);
+  const [filteredDrop, setFilteredDrop] = useState(dropOffInformation);
+
+  useEffect(() => {
+    setFilteredPickup(pickupInformations);
+    setFilteredDrop(dropOffInformation);
+  }, [pickupInformations, dropOffInformation]);
+
+  const onSubmitHandleSearch = async (values: z.infer<typeof FormSchema>) => {
+    try {
+      // Handle Search
+      const selectedDate = values?.reportDate
+        ? format(values.reportDate, "yyyy-MM-dd")
+        : "";
+
+      setFilteredPickup(
+        pickupInformations?.filter((item) => item.date === selectedDate)
+      );
+      setFilteredDrop(
+        dropOffInformation?.filter((item) => item.date === selectedDate)
+      );
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      throw error;
+    }
   };
 
-  const handleClear = () => {
-    form.reset();
-    setFilteredPickup(pickupReservations);
-    setFilteredDrop(dropReservations);
+  const onSubmitHandleClear = async () => {
+    try {
+      form.reset();
+      setFilteredPickup(pickupInformations);
+      setFilteredDrop(dropOffInformation);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      throw error;
+    }
   };
 
   const generatePDF = useReactToPrint({
@@ -128,19 +156,17 @@ const AirportPickupDropoff = () => {
               />
               <div className="flex gap-2">
                 <Button
-                  className="bg-[#0069d9] hover:bg-[#0069d9]/80 py-3 rounded-[4px] cursor-pointer
-  font-normal "
-                  type="button"
-                  onClick={form.handleSubmit(handleSearch)}
+                  className="bg-[#0069d9] hover:bg-[#0069d9]/80 py-3 rounded-[4px] cursor-pointer font-normal"
+                  type="submit"
+                  onClick={form.handleSubmit(onSubmitHandleSearch)}
                 >
                   Search
                 </Button>
 
                 <Button
-                  className="bg-[#343a40] hover:bg-[#343a40]/80 py-3 rounded-[4px] cursor-pointer
-  font-normal"
+                  className="bg-[#343a40] hover:bg-[#343a40]/80 py-3 rounded-[4px] cursor-pointer font-normal"
                   type="button"
-                  onClick={handleClear}
+                  onClick={onSubmitHandleClear}
                 >
                   Clear
                 </Button>
@@ -171,8 +197,8 @@ const AirportPickupDropoff = () => {
           </h1>
 
           <ReportTable
-            pickupReservations={filteredPickup}
-            dropReservations={filteredDrop}
+            pickupInformations={filteredPickup}
+            dropOffInformation={filteredDrop}
           />
         </div>
       </div>

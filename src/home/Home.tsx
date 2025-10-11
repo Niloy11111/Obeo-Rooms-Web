@@ -24,6 +24,11 @@ const Home = () => {
               Bill Transfer Report
             </button>
           </Link>
+          <Link to="/report/room-reservation">
+            <button className="cursor-pointer px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg shadow-sm transition-colors duration-150">
+              Room Reservation
+            </button>
+          </Link>
         </div>
       </div>
     </div>

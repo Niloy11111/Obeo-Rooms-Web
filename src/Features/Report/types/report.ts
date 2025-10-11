@@ -35,3 +35,31 @@ export interface IDrop {
   flightInfo: string;
   date: string;
 }
+export interface IRoomDetails {
+  roomTypes: string;
+  roomQuantity: string;
+  adultPerRoom: string;
+  childPerRoom: string;
+  roomNumber: string;
+  rackRate: string;
+  discountType: string;
+  discountAmount: string;
+  negotiatedRate: string;
+  serviceChargeAmount: string;
+  serviceChargeEnabled: boolean;
+  vatAmountValue: string;
+  vatAmountEnabled: boolean;
+  cityChargeValue: string;
+  cityChargeEnabled: boolean;
+  additionalChargesValue: string;
+  additionalChargesEnabled: boolean;
+  totalRoomRentAmt: string;
+  roomCheckInDate: Date | undefined;
+  roomCheckOutDate: Date | undefined;
+  numberOfNight: string;
+  extraBed: boolean;
+  serviceName: string;
+  serviceFromDate: Date | undefined;
+  serviceToDate: Date | undefined;
+  totalServiceAmount: string;
+}

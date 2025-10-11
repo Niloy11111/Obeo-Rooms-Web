@@ -1,21 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
 
-import { IBillTransfer, IDrop, IPickUp } from "../types/report";
+import { completeFormDefaultValues } from "../Components/const.room-reservation";
+import { IBillTransfer, IDrop, IPickUp, IRoomDetails } from "../types/report";
 
 interface InitialStateTypes {
   pickupInformation: IPickUp[] | undefined;
   dropOffInformation: IDrop[] | undefined;
   billTransfer?: IBillTransfer[] | undefined;
+  roomDetailedInfomrations: IRoomDetails[];
+  roomReservationFullData: Record<string, any>;
 }
 
 export const initialState: InitialStateTypes = {
   pickupInformation: [],
   dropOffInformation: [],
-  // pickupInformation: pickupReservations?.filter(
-  //   (item) => item?.status !== "completed"
-  // ),
   billTransfer: [],
+  roomDetailedInfomrations: [],
+  roomReservationFullData: completeFormDefaultValues,
 };
 
 export const reportSlice = createSlice({
@@ -40,16 +43,59 @@ export const reportSlice = createSlice({
     ) => {
       state.billTransfer = action.payload;
     },
+    setRoomDetailedInfomrations: (
+      state,
+      action: PayloadAction<IRoomDetails>
+    ) => {
+      state.roomDetailedInfomrations = [
+        ...state.roomDetailedInfomrations,
+        action.payload,
+      ];
+    },
+    clearRoomDetailedInfomrations: (state) => {
+      state.roomDetailedInfomrations = [];
+    },
+
+    removeRoomDetailedInfomration: (state, action: PayloadAction<number>) => {
+      state.roomDetailedInfomrations = state.roomDetailedInfomrations.filter(
+        (_, index) => index !== action.payload
+      );
+    },
+    setRoomReservationFullData: (
+      state,
+      action: PayloadAction<
+        Record<string, any> | typeof completeFormDefaultValues
+      >
+    ) => {
+      state.roomReservationFullData = action.payload;
+    },
+    clearRoomReservationFullData: (state) => {
+      state.roomReservationFullData = [];
+    },
   },
 });
 
-export const { setBillTransfer } = reportSlice.actions;
+export const {
+  setBillTransfer,
+  setPickupInformation,
+  setDropOffInformation,
+  setRoomDetailedInfomrations,
+  clearRoomDetailedInfomrations,
+  clearRoomReservationFullData,
+  removeRoomDetailedInfomration,
+  setRoomReservationFullData,
+} = reportSlice.actions;
+
 export const selectBillTransfer = (state: RootState) =>
   state.report.billTransfer;
-export const { setPickupInformation } = reportSlice.actions;
+
 export const selectPickupInformation = (state: RootState) =>
   state.report.pickupInformation;
-export const { setDropOffInformation } = reportSlice.actions;
+
 export const selectDropOffInformation = (state: RootState) =>
   state.report.dropOffInformation;
 export default reportSlice.reducer;
+export const selectRoomReservationFullData = (state: RootState) =>
+  state.report.roomReservationFullData;
+export const selectRoomDetailedInfomrations = (state: RootState) =>
+  state.report.roomDetailedInfomrations;

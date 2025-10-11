@@ -8,6 +8,7 @@ import App from "./App.tsx";
 import AirportPickupDropoff from "./Features/Report/Pages/AirportPickupDropoff.tsx";
 import BillAdjustmentReport from "./Features/Report/Pages/BillAdjustmentReport.tsx";
 import BillTransferReport from "./Features/Report/Pages/BillTransferReport.tsx";
+import RoomReservation from "./Features/Report/Pages/RoomReservation.tsx";
 import Home from "./home/Home.tsx";
 import "./index.css";
 import { persistor, store } from "./Redux/store.ts";
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/report/bill-transper-report",
         element: <BillTransferReport />,
+      },
+      {
+        path: "/report/room-reservation",
+        element: <RoomReservation />,
       },
     ],
   },

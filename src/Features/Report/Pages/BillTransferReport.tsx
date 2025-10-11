@@ -74,8 +74,10 @@ const BillTransferReport = () => {
   useEffect(() => {
     if (data.length > 0) {
       setOriginalBillTransfers(data);
-
-      if (!billTransfers) {
+      if (
+        !billTransfers ||
+        (Array.isArray(billTransfers) && billTransfers.length === 0)
+      ) {
         dispatch(setBillTransfer(data));
       }
     }

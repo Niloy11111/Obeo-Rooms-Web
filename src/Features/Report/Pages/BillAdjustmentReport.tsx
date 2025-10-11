@@ -91,7 +91,10 @@ const BillAdjustmentReport = () => {
     if (data.length > 0) {
       setOriginalPickupInformation(data);
 
-      if (!pickupInformation) {
+      if (
+        !pickupInformation ||
+        (Array.isArray(pickupInformation) && pickupInformation.length === 0)
+      ) {
         dispatch(setPickupInformation(data));
       }
     }

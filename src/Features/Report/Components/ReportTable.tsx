@@ -8,8 +8,6 @@ const ReportTable = ({
   pickupInformations: IPickUp[];
   dropOffInformation: IDrop[];
 }) => {
-  console.log("from sdf", pickupInformations);
-
   const pickUpColumns: ColumnDef<IPickUp>[] = [
     {
       accessorKey: "reservationsNo",

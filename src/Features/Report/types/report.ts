@@ -40,11 +40,11 @@ export interface IRoomDetails {
   roomQuantity: string;
   adultPerRoom: string;
   childPerRoom: string;
-  roomNumber: string;
+  roomNumber?: string;
   rackRate: string;
   discountType: string;
   discountAmount: string;
-  negotiatedRate: string;
+  negotiatedRate?: string;
   serviceChargeAmount: string;
   serviceChargeEnabled: boolean;
   vatAmountValue: string;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IPickUp } from "../../types/report";
+import { IPickUp } from "../types/report";
 
 const usePickupReservation = (url: string, filterCompleted: boolean = true) => {
   const [data, setData] = useState<IPickUp[]>([]);

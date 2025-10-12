@@ -35,7 +35,7 @@ import BillAdjustmentTable from "../Components/BillAdjustmentTable";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 
-import usePickupReservation from "../Components/hooks/usePickupReservation";
+import usePickupReservation from "../hooks/usePickupReservation";
 import {
   selectPickupInformation,
   setPickupInformation,

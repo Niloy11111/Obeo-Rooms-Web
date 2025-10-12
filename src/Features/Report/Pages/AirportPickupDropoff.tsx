@@ -24,8 +24,9 @@ import {
 } from "../../../components/ui/popover";
 import { cn } from "../../../lib/utils";
 import ReportTable from "../Components/ReportTable";
-import useDropOffReservation from "../Components/hooks/useDropOffReservation";
-import usePickupReservation from "../Components/hooks/usePickupReservation";
+
+import useDropOffReservation from "../hooks/useDropOffReservation";
+import usePickupReservation from "../hooks/usePickupReservation";
 
 const FormSchema = z.object({
   reportDate: z

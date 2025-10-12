@@ -94,7 +94,8 @@ export const CompleteSchema = z.object({
   hotelRemarks: z.string().optional(),
   guestRemarks: z.string().optional(),
   posRemarks: z.string().optional(),
-  isRoomRateShown: z.boolean().default(false),
+  // isRoomRateShown: z.boolean().default(false),
+  isRoomRateShown: z.boolean().optional(),
 });
 
 // Separate schemas for section-specific validation

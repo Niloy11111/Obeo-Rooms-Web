@@ -1,4 +1,4 @@
-import { IPickUp } from "../../types/report";
+import { IPickUp } from "../types/report";
 
 export const pickupReservations = [
   {

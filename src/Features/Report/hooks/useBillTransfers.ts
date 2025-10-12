@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IBillTransfer } from "../../types/report";
+import { IBillTransfer } from "../types/report";
 
 const useBillTransfers = (url: string) => {
   const [data, setData] = useState<IBillTransfer[]>([]);

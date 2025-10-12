@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IDrop } from "../../types/report";
+import { IDrop } from "../types/report";
 
 const useDropOffReservation = (url: string) => {
   const [data, setData] = useState<IDrop[]>([]);

@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { IBillTransfer } from "../../types/report";
+import { RTable } from "../shared/RTable/RTable";
 
-import { IBillTransfer } from "../types/report";
-import { RTable } from "./RTable/RTable";
 const BillTransferTable = ({
   billTransfers,
 }: {

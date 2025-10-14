@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
 
-import { completeFormDefaultValues } from "../Components/const.room-reservation";
+import { completeFormDefaultValues } from "../Components/RoomReservation/const.room-reservation";
 import { IBillTransfer, IDrop, IPickUp, IRoomDetails } from "../types/report";
 
 interface InitialStateTypes {

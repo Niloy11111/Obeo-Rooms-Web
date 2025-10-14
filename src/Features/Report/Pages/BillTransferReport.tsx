@@ -25,8 +25,8 @@ import {
 import { cn } from "../../../lib/utils";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-import BillTransferTable from "../Components/BillTransferTable";
 
+import BillTransferTable from "../Components/BillTransferReport/BillTransferTable";
 import useBillTransfers from "../hooks/useBillTransfers";
 import {
   selectBillTransfer,

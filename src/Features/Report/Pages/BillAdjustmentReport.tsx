@@ -31,10 +31,10 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { cn } from "../../../lib/utils";
-import BillAdjustmentTable from "../Components/BillAdjustmentTable";
 
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 
+import BillAdjustmentTable from "../Components/BillAdjustmentReport/BillAdjustmentTable";
 import usePickupReservation from "../hooks/usePickupReservation";
 import {
   selectPickupInformation,

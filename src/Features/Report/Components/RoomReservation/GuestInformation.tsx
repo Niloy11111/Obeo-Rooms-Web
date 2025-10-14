@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { format } from "date-fns";
 import { CalendarIcon, X } from "lucide-react";
-import { Button } from "../../../components/ui/button";
-import { Calendar } from "../../../components/ui/calendar";
+import { Button } from "../../../../components/ui/button";
+import { Calendar } from "../../../../components/ui/calendar";
 
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -13,22 +13,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
+} from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../components/ui/popover";
+} from "../../../../components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
-import { cn } from "../../../lib/utils";
-import { CompleteSchema } from "../zod/room-reservation";
+} from "../../../../components/ui/select";
+import { cn } from "../../../../lib/utils";
+import { CompleteSchema } from "../../zod/room-reservation";
 
 interface CompleteInformationProps {
   form: UseFormReturn<z.infer<typeof CompleteSchema>, any, any>;

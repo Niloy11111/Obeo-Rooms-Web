@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Button } from "../../../components/ui/button";
-import { Calendar } from "../../../components/ui/calendar";
+import { Button } from "../../../../components/ui/button";
+import { Calendar } from "../../../../components/ui/calendar";
 
 import { UseFormReturn } from "react-hook-form";
 import z from "zod";
@@ -12,30 +12,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
+} from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../components/ui/popover";
+} from "../../../../components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
-import { cn } from "../../../lib/utils";
-import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
+} from "../../../../components/ui/select";
+import { cn } from "../../../../lib/utils";
+import { useAppDispatch, useAppSelector } from "../../../../Redux/hooks";
 import {
   removeRoomDetailedInfomration,
   selectRoomDetailedInfomrations,
   setRoomDetailedInfomrations,
-} from "../reportSlices/reportSlice";
-import { IRoomDetails } from "../types/report";
-import { CompleteSchema, RoomDetailsSchema } from "../zod/room-reservation";
-import { ROOM_DETAILS_KEYS } from "./const.room-reservation";
+} from "../../reportSlices/reportSlice";
+import { IRoomDetails } from "../../types/report";
+import { CompleteSchema, RoomDetailsSchema } from "../../zod/room-reservation";
+
+import { ROOM_DETAILS_KEYS } from ".././RoomReservation/const.room-reservation";
 import RoomDetailsTable from "./RoomDetailsTable";
 
 interface CompleteInformationProps {

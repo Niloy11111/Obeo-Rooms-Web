@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IPickUp } from "../types/report";
-import { RTable } from "./RTable/RTable";
+import { IPickUp } from "../../types/report";
+import { RTable } from "../shared/RTable/RTable";
+
 const BillAdjustmentTable = ({
   pickupInformation,
 }: {

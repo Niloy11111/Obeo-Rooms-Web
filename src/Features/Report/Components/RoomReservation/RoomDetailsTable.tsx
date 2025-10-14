@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash2 } from "lucide-react";
-import { Button } from "../../../components/ui/button";
-import { IRoomDetails } from "../types/report";
-import { RTable } from "./RTable/RTable";
+import { Button } from "../../../../components/ui/button";
+import { IRoomDetails } from "../../types/report";
+import { RTable } from ".././shared/RTable/RTable";
 
 const RoomDetailsTable = ({
   roomDetails,

@@ -23,8 +23,7 @@ import {
   PopoverTrigger,
 } from "../../../components/ui/popover";
 import { cn } from "../../../lib/utils";
-import ReportTable from "../Components/ReportTable";
-
+import ReportTable from "../Components/AirportPickupDropoff/ReportTable";
 import useDropOffReservation from "../hooks/useDropOffReservation";
 import usePickupReservation from "../hooks/usePickupReservation";
 

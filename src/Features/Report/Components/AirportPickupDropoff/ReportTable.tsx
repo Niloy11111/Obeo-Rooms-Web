@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { IDrop, IPickUp } from "../types/report";
-import { RTable } from "./RTable/RTable";
+import { IDrop, IPickUp } from "../../types/report";
+import { RTable } from "../shared/RTable/RTable";
+
 const ReportTable = ({
   pickupInformations,
   dropOffInformation,

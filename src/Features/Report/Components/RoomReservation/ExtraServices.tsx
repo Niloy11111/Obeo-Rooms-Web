@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFormReturn } from "react-hook-form";
 import z from "zod";
-import { Checkbox } from "../../../components/ui/checkbox";
+import { Checkbox } from "../../../../components/ui/checkbox";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
+} from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../../../components/ui/select";
-import { CompleteSchema } from "../zod/room-reservation";
+} from "../../../../components/ui/select";
+import { CompleteSchema } from "../../zod/room-reservation";
 
 interface CompleteInformationProps {
   form: UseFormReturn<z.infer<typeof CompleteSchema>, any, any>;

@@ -10,11 +10,10 @@ import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import {
   completeFormDefaultValues,
   ROOM_FIELDS,
-} from "../Components/const.room-reservation";
-
-import ExtraServices from "../Components/ExtraServices";
-import GuestInformation from "../Components/GuestInformation";
-import RoomDetailedInformation from "../Components/RoomDetailedInformation";
+} from "../Components/RoomReservation/const.room-reservation";
+import ExtraServices from "../Components/RoomReservation/ExtraServices";
+import GuestInformation from "../Components/RoomReservation/GuestInformation";
+import RoomDetailedInformation from "../Components/RoomReservation/RoomDetailedInformation";
 import {
   clearRoomDetailedInfomrations,
   clearRoomReservationFullData,

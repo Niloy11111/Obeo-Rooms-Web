@@ -22,9 +22,6 @@ import {
 } from "../reportSlices/reportSlice";
 import { CompleteSchema, RoomDetailsSchema } from "../zod/room-reservation";
 
-// Complete Schema (all fields optional for the main form, validation happens per section)
-// Combined Schema - All fields in one
-
 const RoomReservation = () => {
   const form = useForm({
     resolver: zodResolver(CompleteSchema),

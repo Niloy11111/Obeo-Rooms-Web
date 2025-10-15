@@ -29,6 +29,21 @@ const Home = () => {
               Room Reservation
             </button>
           </Link>
+          <Link to="/report/airport-pickup-drop-tab">
+            <button className="cursor-pointer px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg shadow-sm transition-colors duration-150">
+              Airport Pickup/Drop Tab
+            </button>
+          </Link>
+          <Link to="/report/complementary-item">
+            <button className="cursor-pointer px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg shadow-sm transition-colors duration-150">
+              Complementary Item
+            </button>
+          </Link>
+          <Link to="/report/advance-payment">
+            <button className="cursor-pointer px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-medium rounded-lg shadow-sm transition-colors duration-150">
+              Advance Payment
+            </button>
+          </Link>
         </div>
       </div>
     </div>

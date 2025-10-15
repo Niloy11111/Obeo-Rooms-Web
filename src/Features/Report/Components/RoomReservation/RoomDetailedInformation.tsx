@@ -86,7 +86,7 @@ const RoomDetailedInformation = ({
   };
 
   return (
-    <div className="border-b bg-[#f2f2f2] pb-6 mb-6">
+    <div className=" border-b bg-[#f2f2f2] pb-6 mb-6">
       <h3 className=" font-medium mb-4 bg-gray-800 text-white px-3 py-2 rounded">
         Room Detailed Information
       </h3>

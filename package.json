@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "commit": "git add . && git commit -m \" create room reservation page \" && git push"
+    "commit": "git add . && git commit -m \" updated \" && git push"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

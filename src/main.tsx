@@ -6,8 +6,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import App from "./App.tsx";
 import AirportPickupDropoff from "./Features/Report/Pages/AirportPickupDropoff.tsx";
+import AirportPickupDropTab from "./Features/Report/Pages/AirportPickupDropTab.tsx";
 import BillAdjustmentReport from "./Features/Report/Pages/BillAdjustmentReport.tsx";
 import BillTransferReport from "./Features/Report/Pages/BillTransferReport.tsx";
+
+import AdvancePaymentTab from "./Features/Report/Pages/AdvancePaymentTab.tsx";
+import ComplimentaryItemTab from "./Features/Report/Pages/ComplimentaryItemTab.tsx";
 import RoomReservation from "./Features/Report/Pages/RoomReservation.tsx";
 import Home from "./home/Home.tsx";
 import "./index.css";
@@ -37,6 +41,18 @@ const router = createBrowserRouter([
       {
         path: "/report/room-reservation",
         element: <RoomReservation />,
+      },
+      {
+        path: "/report/airport-pickup-drop-tab",
+        element: <AirportPickupDropTab />,
+      },
+      {
+        path: "/report/complementary-item",
+        element: <ComplimentaryItemTab />,
+      },
+      {
+        path: "/report/Advance-payment",
+        element: <AdvancePaymentTab />,
       },
     ],
   },

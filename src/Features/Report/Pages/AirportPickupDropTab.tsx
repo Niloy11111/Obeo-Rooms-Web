@@ -29,6 +29,10 @@ const FormSchema = z.object({
   airportPickup: z.enum(["YES", "NO"], "Airport Pickup is required"),
   airportDrop: z.enum(["YES", "NO"], "Airport Drop is required"),
 });
+const FormSchemad = z.object({
+  airportPickup: z.enum(["YES", "NO"], "Airport Pickup is required"),
+  airportDrop: z.enum(["YES", "NO"], "Airport Drop is required"),
+});
 
 type FormValues = z.infer<typeof FormSchema>;
 

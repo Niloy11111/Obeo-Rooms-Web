@@ -33,22 +33,27 @@ export function RTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md  ">
-      <Table className="border border-[#E9E9E9] text-[12px] ">
+    <div className="rounded-md ">
+      {/*  border-t-0 */}
+      <Table className=" border  border-[#E9E9E9] text-[12px] ">
         {/* bg-[#343a40] */}
-        <TableHeader className="  bg-[#343a40]   ">
+        <TableHeader
+          className={` ${
+            name === "searchReservation" ? "h-[65px]" : ""
+          }   bg-[#343a40] `}
+        >
           <TableRow className="border-b">
             <TableHead
               colSpan={columns.length}
-              className={`text-center text-[12px]  text-white ${
+              className={`text-center text-[12px]   text-white ${
                 name === "billTransferReport" ? "hidden" : ""
-              }`}
+              } ${name === "searchReservation" ? "hidden" : ""}`}
             >
               {name === "pickup"
                 ? "Airport Pick Up Information"
                 : name === "billTransferReport"
                 ? "Bill Transfort Information"
-                : name === "roomDetailsReport"
+                : name === "roomDetailsReport" || name === "searchReservation"
                 ? ""
                 : "Airport Drop Information"}
             </TableHead>

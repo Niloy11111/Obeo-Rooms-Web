@@ -1,0 +1,21 @@
+export type IReservation = {
+  id: number;
+  reserveNo: string;
+  reserveDate?: string;
+  guestName?: string;
+  mobile?: string;
+  guestPhone?: string;
+  contactPersonPhone?: string;
+  company?: string;
+  roomType?: string;
+  contactPerson?: string;
+  roomInfo?: string;
+  createdBy?: string;
+  updatedBy?: string;
+  checkIn?: string;
+  checkOut?: string;
+  advance?: number;
+  reservationStatus?: string;
+  registrationStatus?: string;
+  searchOrdering?: string;
+};

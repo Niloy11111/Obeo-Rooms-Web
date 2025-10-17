@@ -13,6 +13,7 @@ import BillTransferReport from "./Features/Report/Pages/BillTransferReport.tsx";
 import AdvancePaymentTab from "./Features/Report/Pages/AdvancePaymentTab.tsx";
 import ComplimentaryItemTab from "./Features/Report/Pages/ComplimentaryItemTab.tsx";
 import RoomReservation from "./Features/Report/Pages/RoomReservation.tsx";
+import SearchReservation from "./Features/Report/Pages/SearchReservation.tsx";
 import Home from "./home/Home.tsx";
 import "./index.css";
 import { persistor, store } from "./Redux/store.ts";
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/report/Advance-payment",
         element: <AdvancePaymentTab />,
+      },
+      {
+        path: "/report/search-reservation",
+        element: <SearchReservation />,
       },
     ],
   },

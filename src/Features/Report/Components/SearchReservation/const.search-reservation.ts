@@ -12,3 +12,61 @@ export const searchFormDefaultValues = {
   reservationStatus: undefined,
   searchOrdering: undefined,
 };
+
+export const reservationData = {
+  hotel: {
+    name: "STUDIO23",
+    tagline: "Stay in pleasure",
+    addressLines: [
+      "23/3/2 West Tejturi Bazar, Karwan Bazar, Dhaka, Bangladesh",
+      "Phone: 01329684666 | info@studio23.com.bd",
+    ],
+  },
+  reservation: {
+    number: "GR00000423",
+    status: "Confirmed",
+    printDate: "17/08/2025 10:36 PM",
+    createdBy: "Abir Hasan (GSA)",
+    createdAt: "2025-08-17 21:56:20",
+    guest: {
+      name: "MR. MD.TARIQUL HASAN RIFAT",
+      phone: "01521493701",
+      email: "guest@example.com",
+      address: "",
+    },
+    arrivalDate: "Aug-17-2025",
+    departureDate: "Aug-18-2025",
+    roomNight: 1,
+    reservationMode: "Self",
+    airportPickUp: "NO",
+    airportDrop: "NO",
+    flightETA: "",
+    flightETD: "",
+  },
+  rooms: [
+    {
+      type: "Superior King",
+      arrivalDate: "Aug-17-2025",
+      departureDate: "Aug-18-2025",
+      tariff: 5556.0,
+      qty: 1,
+      nights: 1,
+    },
+  ],
+  mealPlan: "BED & BREAKFAST",
+  guestRemarks: "5556 All Including",
+  policy: [
+    "Complementary: Breakfast, Wi-Fi Internet, Tea-Coffee setup and Two bottle 500ml water per day.",
+    "Below 5 years child is entitled to stay with parents in the room & complimentary breakfast.",
+    "Important: National ID (Bangladesh) OR Passport with valid Visa (Foreign Guests) are Mandatory.",
+    "Pre-Authorization will be taken from the credit card for a guaranteed booking.",
+    "Our standard CHECK-IN Time is 1400 HRS & CHECK-OUT Time is 1200 HRS.",
+    "Early check-in/check-out is subject to availability.",
+    "A written confirmation (Letter, E-mail) is needed before 24 hrs for any reservation cancellation or to reschedule to avoid a cancellation fee.",
+    "For Group reservation a No Show Bill for one night will be charged if cancellation message is not communicated before 15 days of the arrival.",
+    "No firearms or weapons allowed on this property.",
+    "Pets are not allowed inside the hotel.",
+    "Above Prices are including of VAT & Service Charge.",
+    "Out side food and beverage items are not allowed.",
+  ],
+};

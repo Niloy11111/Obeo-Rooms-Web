@@ -7,6 +7,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import "../Components/SearchReservation/search-reservation.css";
+
 import { Button } from "../../../components/ui/button";
 import { Calendar } from "../../../components/ui/calendar";
 import {
@@ -36,6 +38,7 @@ import { useReactToPrint } from "react-to-print";
 import { toast } from "sonner";
 import { searchFormDefaultValues } from "../Components/SearchReservation/const.search-reservation";
 import EditReservationModal from "../Components/SearchReservation/EditReservationModal";
+import ReservationLetter from "../Components/SearchReservation/ReservationLetter";
 import SearchReservationTable from "../Components/SearchReservation/SearchReservationTable";
 import useSearchReservationData from "../hooks/useSearchReservationData";
 import { IReservation } from "../types/search-reservation";
@@ -233,7 +236,7 @@ const SearchReservation = () => {
 
   const generatePDF = useReactToPrint({
     content: () => ComponentPdf.current,
-    documentTitle: "PickupDropReport",
+    documentTitle: "",
     onAfterPrint: () => toast.success("PDF generated successfully!"),
   });
 
@@ -644,14 +647,18 @@ const SearchReservation = () => {
             />
           </div>
         </div>
-        <div className="   " ref={ComponentPdf}>
-          <SearchReservationTable
-            data={displayData}
-            onEdit={(item) => setEditingItem(item)}
-            onDelete={handleDelete}
-            handlePrint={handlePrint}
-          />
+        <div
+          ref={ComponentPdf}
+          className="w-full hidden print:block print-full-page"
+        >
+          <ReservationLetter />
         </div>
+        <SearchReservationTable
+          data={displayData}
+          onEdit={(item) => setEditingItem(item)}
+          onDelete={handleDelete}
+          handlePrint={handlePrint}
+        />
 
         {/* Pagination visual */}
         <div className="mt-4 flex sm:flex-row flex-col justify-between items-center gap-2">

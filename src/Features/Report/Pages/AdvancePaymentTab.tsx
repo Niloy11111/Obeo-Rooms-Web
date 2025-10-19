@@ -38,10 +38,10 @@ const FormSchema = z.object({
 
 type FormValues = z.input<typeof FormSchema>;
 
-const DEFAULTS: Partial<FormValues> = {
-  paymentMode: undefined,
-  paymentFor: "BDT", // currency (no default)
-  paymentAmount: undefined,
+const DEFAULTS: FormValues = {
+  paymentMode: "" as any,
+  paymentFor: "" as any,
+  paymentAmount: "" as any,
   remarks: "",
 };
 
@@ -52,8 +52,6 @@ const AdvancePaymentTab = () => {
     mode: "onSubmit",
     shouldFocusError: true,
   });
-
-  const currency = form.watch("paymentFor");
 
   const onSubmitHandleSave = async (values: FormValues) => {
     try {
@@ -178,17 +176,30 @@ const AdvancePaymentTab = () => {
                                 type="number"
                                 inputMode="decimal"
                                 placeholder="Received Amount"
-                                className="h-[35px] pr-14 rounded-[4px] bg-white border border-[#E9E9E9] text-[13px] text-[#495057]"
+                                className="h-[35px] pr-14 rounded-[4px] bg-white border border-[#E9E9E9] text-[13px] text-[#495057] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 value={field.value as any}
-                                onChange={(e) => field.onChange(e.target.value)}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  if (value === "" || parseFloat(value) >= 0) {
+                                    field.onChange(value);
+                                  }
+                                }}
                               />
                             </FormControl>
                             {/* Dynamic currency tag; no default text */}
-                            {currency ? (
-                              <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#6c757d]">
-                                {currency}
-                              </span>
-                            ) : null}
+                            <FormField
+                              control={form.control}
+                              name="paymentFor"
+                              render={({ field: currencyField }) => (
+                                <>
+                                  {currencyField.value ? (
+                                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#6c757d]">
+                                      {currencyField.value}
+                                    </span>
+                                  ) : null}
+                                </>
+                              )}
+                            />
                           </div>
                           <FormMessage />
                         </FormItem>

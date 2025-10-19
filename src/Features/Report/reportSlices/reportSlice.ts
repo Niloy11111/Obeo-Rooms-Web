@@ -5,20 +5,12 @@ import { RootState } from "../../../Redux/store";
 import { completeFormDefaultValues } from "../Components/RoomReservation/const.room-reservation";
 import { IBillTransfer, IDrop, IPickUp, IRoomDetails } from "../types/report";
 
-type YesNo = "YES" | "NO";
-interface IAirportPickupDropTab {
-  airportPickup?: YesNo;
-  airportDrop?: YesNo;
-}
-
 interface InitialStateTypes {
   pickupInformation: IPickUp[] | undefined;
   dropOffInformation: IDrop[] | undefined;
   billTransfer?: IBillTransfer[] | undefined;
   roomDetailedInfomrations: IRoomDetails[];
   roomReservationFullData: Record<string, any>;
-  // Added for Airport Pickup/Drop
-  airportPickupDropTab: IAirportPickupDropTab;
   complimentaryItems: string[];
 }
 
@@ -28,8 +20,6 @@ export const initialState: InitialStateTypes = {
   billTransfer: [],
   roomDetailedInfomrations: [],
   roomReservationFullData: completeFormDefaultValues,
-  // Init as unselected
-  airportPickupDropTab: { airportPickup: undefined, airportDrop: undefined },
   complimentaryItems: [],
 };
 
@@ -85,21 +75,6 @@ export const reportSlice = createSlice({
       state.roomReservationFullData = [];
     },
 
-    // NEW: Save Airport Pickup/Drop
-    setAirportPickupDropTab: (
-      state,
-      action: PayloadAction<IAirportPickupDropTab>
-    ) => {
-      state.airportPickupDropTab = action.payload;
-    },
-
-    // NEW: Clear Airport Pickup/Drop
-    clearAirportPickupDropTab: (state) => {
-      state.airportPickupDropTab = {
-        airportPickup: undefined,
-        airportDrop: undefined,
-      };
-    },
     setComplimentaryItems: (state, action: PayloadAction<string[]>) => {
       state.complimentaryItems = action.payload ?? [];
     },
@@ -118,9 +93,7 @@ export const {
   clearRoomReservationFullData,
   removeRoomDetailedInfomration,
   setRoomReservationFullData,
-  // export new actions
-  setAirportPickupDropTab,
-  clearAirportPickupDropTab,
+
   setComplimentaryItems,
   clearComplimentaryItems,
 } = reportSlice.actions;

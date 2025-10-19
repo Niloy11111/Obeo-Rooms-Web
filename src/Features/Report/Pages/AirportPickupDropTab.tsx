@@ -19,11 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { useAppDispatch } from "../../../Redux/hooks";
-import {
-  clearAirportPickupDropTab,
-  setAirportPickupDropTab,
-} from "../reportSlices/reportSlice";
 
 const FormSchema = z.object({
   airportPickup: z.enum(["YES", "NO"], "Airport Pickup is required"),
@@ -44,14 +39,11 @@ const AirportPickupDropTab = () => {
     mode: "onSubmit",
   });
 
-  const dispatch = useAppDispatch();
-
   const onSubmitHandleSave = async (values: FormValues) => {
     try {
       // Page-scoped save logic
       console.log("Saving Airport Pickup/Drop:", values);
       toast.success("Saved to redux!");
-      dispatch(setAirportPickupDropTab(values));
 
       form.reset(DEFAULTS);
     } catch (error) {
@@ -63,7 +55,6 @@ const AirportPickupDropTab = () => {
   const onSubmitHandleClear = () => {
     try {
       form.reset(DEFAULTS);
-      dispatch(clearAirportPickupDropTab());
     } catch (error) {
       console.error(error);
       toast.error("Failed to clear");

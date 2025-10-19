@@ -15,10 +15,7 @@ import {
 
 import { useAppDispatch } from "../../../Redux/hooks";
 import { COMPLIMENTARY_ITEMS } from "../Components/ComplementaryItemTab/const.complementary-tab";
-import {
-  clearComplimentaryItems,
-  setComplimentaryItems,
-} from "../reportSlices/reportSlice";
+import { setComplimentaryItems } from "../reportSlices/reportSlice";
 
 const ALL_IDS = COMPLIMENTARY_ITEMS.map((i) => i.id);
 
@@ -40,30 +37,6 @@ const ComplimentaryItemTab = () => {
     mode: "onSubmit",
   });
 
-  const selected = form.watch("complimentaryItems");
-  const allSelected = selected?.length === ALL_IDS.length && ALL_IDS.length > 0;
-
-  const toggleOne = (id: string, checked: boolean | "indeterminate") => {
-    const on = checked === true;
-    const current = form.getValues("complimentaryItems") ?? [];
-    const next = on
-      ? Array.from(new Set([...current, id]))
-      : current.filter((x) => x !== id);
-    form.setValue("complimentaryItems", next, {
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
-
-  const toggleAll = (checked: boolean | "indeterminate") => {
-    const on = checked === true;
-    const next = on ? ALL_IDS : [];
-    form.setValue("complimentaryItems", next, {
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
-
   const onSubmitHandleSave = async (values: FormValues) => {
     console.log("values", values);
     try {
@@ -77,17 +50,6 @@ const ComplimentaryItemTab = () => {
     } catch (error) {
       console.error("Error saving complimentary items:", error);
       toast.error("Failed to save");
-    }
-  };
-
-  const onSubmitHandleClear = async () => {
-    try {
-      form.reset(DEFAULTS);
-      dispatch(clearComplimentaryItems());
-      toast.message("Cleared complimentary items");
-    } catch (error) {
-      console.error("Error clearing complimentary items:", error);
-      toast.error("Failed to clear");
     }
   };
 
@@ -109,31 +71,42 @@ const ComplimentaryItemTab = () => {
             >
               <div className="rounded border border-[#dee2e6] p-3">
                 {/* Select All */}
-                <div className="flex items-center gap-2 mb-2">
-                  <Checkbox
-                    id="selectAll"
-                    checked={allSelected}
-                    onCheckedChange={toggleAll}
-                  />
-                  <label
-                    htmlFor="selectAll"
-                    className=" text-[#198754] cursor-pointer select-none"
-                  >
-                    Select All
-                  </label>
-                </div>
+                <FormField
+                  control={form.control}
+                  name="complimentaryItems"
+                  render={({ field }) => (
+                    <div className="flex items-center gap-2 mb-2">
+                      <Checkbox
+                        id="selectAll"
+                        checked={
+                          field.value?.length === ALL_IDS.length &&
+                          ALL_IDS.length > 0
+                        }
+                        onCheckedChange={(checked) => {
+                          field.onChange(checked ? ALL_IDS : []);
+                        }}
+                      />
+                      <label
+                        htmlFor="selectAll"
+                        className=" text-[#198754] cursor-pointer select-none"
+                      >
+                        Select All
+                      </label>
+                    </div>
+                  )}
+                />
 
                 {/* Items */}
                 <div className="grid grid-cols-1 gap-2">
                   <FormField
                     control={form.control}
                     name="complimentaryItems"
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
                         <div className="flex flex-col space-y-4">
                           {COMPLIMENTARY_ITEMS.map((item) => {
                             const checked =
-                              selected?.includes(item.id) ?? false;
+                              field.value?.includes(item.id) ?? false;
                             return (
                               <div
                                 key={item.id}
@@ -143,9 +116,15 @@ const ComplimentaryItemTab = () => {
                                   <Checkbox
                                     id={item.id}
                                     checked={checked}
-                                    onCheckedChange={(c) =>
-                                      toggleOne(item.id, c)
-                                    }
+                                    onCheckedChange={(isChecked) => {
+                                      const current = field.value ?? [];
+                                      const updated = isChecked
+                                        ? [...current, item.id]
+                                        : current.filter(
+                                            (id) => id !== item.id
+                                          );
+                                      field.onChange(updated);
+                                    }}
                                   />
                                 </FormControl>
                                 <FormLabel
@@ -196,7 +175,9 @@ const ComplimentaryItemTab = () => {
                 </Button>
                 <Button
                   type="button"
-                  onClick={onSubmitHandleClear}
+                  onClick={() => {
+                    form.reset(DEFAULTS);
+                  }}
                   className="bg-[#ffc107] hover:bg-[#ffc107]/90 text-[#212529] h-[32px] px-4 rounded-[4px]"
                 >
                   Clear

@@ -2,8 +2,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
 
+import { completeFormDefaultValuesForRegistration } from "../Components/RoomRegistrationTab/const.room-registration";
 import { completeFormDefaultValues } from "../Components/RoomReservation/const.room-reservation";
-import { IBillTransfer, IDrop, IPickUp, IRoomDetails } from "../types/report";
+import {
+  IBillTransfer,
+  IDrop,
+  IPickUp,
+  IRoomDetails,
+  IRoomDetailsRegistration,
+} from "../types/report";
 
 interface InitialStateTypes {
   pickupInformation: IPickUp[] | undefined;
@@ -12,6 +19,10 @@ interface InitialStateTypes {
   roomDetailedInfomrations: IRoomDetails[];
   roomReservationFullData: Record<string, any>;
   complimentaryItems: string[];
+
+  // Room Registration State
+  roomDetailedInfomrationsForRegistration: IRoomDetailsRegistration[];
+  roomRegistrationFullData: Record<string, any>;
 }
 
 export const initialState: InitialStateTypes = {
@@ -21,6 +32,10 @@ export const initialState: InitialStateTypes = {
   roomDetailedInfomrations: [],
   roomReservationFullData: completeFormDefaultValues,
   complimentaryItems: [],
+
+  // Room Registration Initial State
+  roomDetailedInfomrationsForRegistration: [],
+  roomRegistrationFullData: completeFormDefaultValuesForRegistration,
 };
 
 export const reportSlice = createSlice({
@@ -45,6 +60,8 @@ export const reportSlice = createSlice({
     ) => {
       state.billTransfer = action.payload;
     },
+
+    // Room Reservation Actions
     setRoomDetailedInfomrations: (
       state,
       action: PayloadAction<IRoomDetails>
@@ -57,7 +74,6 @@ export const reportSlice = createSlice({
     clearRoomDetailedInfomrations: (state) => {
       state.roomDetailedInfomrations = [];
     },
-
     removeRoomDetailedInfomration: (state, action: PayloadAction<number>) => {
       state.roomDetailedInfomrations = state.roomDetailedInfomrations.filter(
         (_, index) => index !== action.payload
@@ -72,9 +88,44 @@ export const reportSlice = createSlice({
       state.roomReservationFullData = action.payload;
     },
     clearRoomReservationFullData: (state) => {
-      state.roomReservationFullData = [];
+      state.roomReservationFullData = completeFormDefaultValues;
     },
 
+    // Room Registration Actions
+    setRoomDetailedInfomrationsForRegistration: (
+      state,
+      action: PayloadAction<IRoomDetailsRegistration>
+    ) => {
+      state.roomDetailedInfomrationsForRegistration = [
+        ...state.roomDetailedInfomrationsForRegistration,
+        action.payload,
+      ];
+    },
+    clearRoomDetailedInfomrationsForRegistration: (state) => {
+      state.roomDetailedInfomrationsForRegistration = [];
+    },
+    removeRoomDetailedInfomrationForRegistration: (
+      state,
+      action: PayloadAction<number>
+    ) => {
+      state.roomDetailedInfomrationsForRegistration =
+        state.roomDetailedInfomrationsForRegistration.filter(
+          (_, index) => index !== action.payload
+        );
+    },
+    setRoomRegistrationFullData: (
+      state,
+      action: PayloadAction<
+        Record<string, any> | typeof completeFormDefaultValuesForRegistration
+      >
+    ) => {
+      state.roomRegistrationFullData = action.payload;
+    },
+    clearRoomRegistrationFullData: (state) => {
+      state.roomRegistrationFullData = completeFormDefaultValuesForRegistration;
+    },
+
+    // Complimentary Items Actions
     setComplimentaryItems: (state, action: PayloadAction<string[]>) => {
       state.complimentaryItems = action.payload ?? [];
     },
@@ -88,16 +139,27 @@ export const {
   setBillTransfer,
   setPickupInformation,
   setDropOffInformation,
+
+  // Room Reservation Actions Export
   setRoomDetailedInfomrations,
   clearRoomDetailedInfomrations,
-  clearRoomReservationFullData,
   removeRoomDetailedInfomration,
   setRoomReservationFullData,
+  clearRoomReservationFullData,
 
+  // Room Registration Actions Export
+  setRoomDetailedInfomrationsForRegistration,
+  clearRoomDetailedInfomrationsForRegistration,
+  removeRoomDetailedInfomrationForRegistration,
+  setRoomRegistrationFullData,
+  clearRoomRegistrationFullData,
+
+  // Complimentary Items Actions Export
   setComplimentaryItems,
   clearComplimentaryItems,
 } = reportSlice.actions;
 
+// Room Reservation Selectors
 export const selectBillTransfer = (state: RootState) =>
   state.report.billTransfer;
 
@@ -112,6 +174,17 @@ export const selectRoomReservationFullData = (state: RootState) =>
 
 export const selectRoomDetailedInfomrations = (state: RootState) =>
   state.report.roomDetailedInfomrations;
+
+// Room Registration Selectors
+export const selectRoomRegistrationFullData = (state: RootState) =>
+  state.report.roomRegistrationFullData;
+
+export const selectRoomDetailedInfomrationsForRegistration = (
+  state: RootState
+) => state.report.roomDetailedInfomrationsForRegistration;
+
+// Complimentary Items Selectors
 export const selectComplimentaryItems = (state: RootState) =>
   state.report.complimentaryItems;
+
 export default reportSlice.reducer;

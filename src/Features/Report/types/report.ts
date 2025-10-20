@@ -63,3 +63,33 @@ export interface IRoomDetails {
   serviceToDate: Date | undefined;
   totalServiceAmount: string;
 }
+
+export interface IRoomDetailsRegistration {
+  roomTypes: string;
+  adultPerRoom: string;
+  childPerRoom: string;
+  roomNumber?: string;
+  rackRate: string;
+  discountType: string;
+  discountAmount: string;
+  negotiatedRate?: string;
+  serviceChargeAmount: string;
+  serviceChargeEnabled: boolean;
+  vatAmountValue: string;
+  vatAmountEnabled: boolean;
+  cityChargeValue: string;
+  cityChargeEnabled: boolean;
+  additionalChargesValue: string;
+  additionalChargesEnabled: boolean;
+  totalRoomRentAmt: string;
+  roomCheckInDate: Date | undefined;
+  roomDepartureDate: Date | undefined;
+  numberOfNight: string;
+  sameAsGlobalDate: boolean;
+  serviceName: string;
+  serviceFromDate: Date | undefined;
+  serviceToDate: Date | undefined;
+  totalServiceAmount: string;
+  extraBed?: boolean;
+  status?: string;
+}

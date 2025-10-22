@@ -56,6 +56,11 @@ const RoomDetailedInformationRegistration = ({
     selectRoomDetailedInfomrationsForRegistration
   );
 
+  const isServiceChargeEnabled = form.watch("serviceChargeEnabled");
+  const isVatAmountEnabled = form.watch("vatAmountEnabled");
+  const isCityChargeEnabled = form.watch("cityChargeEnabled");
+  const isAdditionalChargesEnabled = form.watch("additionalChargesEnabled");
+
   const handleAddRoom = async () => {
     try {
       // Get only Room Details fields, not all form values
@@ -142,7 +147,9 @@ const RoomDetailedInformationRegistration = ({
                   <Input
                     type="number"
                     placeholder="1"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
+                    className="h-[35px] bg-[#e9ecef] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
                     {...field}
                   />
                 </FormControl>
@@ -164,7 +171,9 @@ const RoomDetailedInformationRegistration = ({
                   <Input
                     type="number"
                     placeholder="0"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
+                    className="h-[35px] bg-[#e9ecef] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
                     {...field}
                   />
                 </FormControl>
@@ -175,7 +184,7 @@ const RoomDetailedInformationRegistration = ({
         </div>
 
         {/* Room List Button */}
-        <div className="col-span-2 flex items-end">
+        <div className="col-span-2 flex items-center">
           <Button
             type="button"
             className="bg-cyan-500 hover:bg-cyan-600 text-white h-[35px] w-full"
@@ -315,6 +324,7 @@ const RoomDetailedInformationRegistration = ({
                       type="text"
                       className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
+                      disabled={!isServiceChargeEnabled}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -354,6 +364,7 @@ const RoomDetailedInformationRegistration = ({
                       type="text"
                       className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
+                      disabled={!isVatAmountEnabled}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -393,6 +404,7 @@ const RoomDetailedInformationRegistration = ({
                       type="text"
                       className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
+                      disabled={!isCityChargeEnabled}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -434,6 +446,7 @@ const RoomDetailedInformationRegistration = ({
                       type="text"
                       className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
+                      disabled={!isAdditionalChargesEnabled}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -616,7 +629,7 @@ const RoomDetailedInformationRegistration = ({
           />
         </div>
 
-        <div className="col-span-2 flex items-center pt-6">
+        <div className="col-span-2 flex items-start pt-6">
           <FormField
             control={form.control}
             name="sameAsGlobalDate"

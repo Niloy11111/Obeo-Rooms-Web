@@ -20,7 +20,7 @@ export const CompleteSchemaRegistration = z.object({
     }),
   departureTime: z.string().nonempty("Please select departure time"),
   totalNights: z.string().nonempty("Please enter total nights"),
-  linkedCompany: z.boolean().optional(),
+  listedCompany: z.boolean().optional(),
 
   listedCompanySelect: z.string().min(1, "Please select a listed company"),
   currencyName: z.string().nonempty("Please select a currency"),

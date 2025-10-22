@@ -4,36 +4,61 @@ import {
   Download,
   Edit2,
   FileText,
+  MoveDown,
+  MoveUp,
   RefreshCcw,
   Trash2,
 } from "lucide-react";
-
 import { IReservation } from "../../types/search-reservation";
 import { RTable } from "../shared/RTable/RTable";
-
-/**
- * Table component implemented using the same pattern as your BillAdjustmentTable (RTable).
- * - Conditional action buttons: if registrationStatus === 'Pending' show 6 actions; otherwise show 3 actions.
- */
 
 const SearchReservationTable = ({
   data,
   onEdit,
   onDelete,
   handlePrint,
+  onSort,
+  sortOrder,
 }: {
   data?: IReservation[];
   onEdit: (row: IReservation) => void;
   onDelete: (id: number) => void;
   handlePrint: () => void;
+  onSort: (order: "asc" | "desc") => void;
+  sortOrder: "asc" | "desc";
 }) => {
   const columns: ColumnDef<IReservation>[] = [
     {
       accessorKey: "serialNo",
-      header: "S/N",
+      header: () => {
+        return (
+          <div className="flex justify-between items-center">
+            <div className="block"></div>
+            <div className="flex gap-5">
+              <div className="">
+                <h1>S/N</h1>
+              </div>
+              <div className="flex">
+                <MoveUp
+                  className={`h-4 w-4 cursor-pointer ${
+                    sortOrder === "asc" ? "" : "text-gray-400"
+                  }`}
+                  onClick={() => onSort("asc")}
+                />
+                <MoveDown
+                  onClick={() => onSort("desc")}
+                  className={`cursor-pointer h-4 w-4 ${
+                    sortOrder === "desc" ? "" : "text-gray-400"
+                  }`}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      },
       cell: ({ row }) => (
-        <div className="flex flex-col w-[50px]">
-          <span className="text-sm truncate">{row.index + 1}</span>
+        <div className="flex flex-col w-[90px]">
+          <span className="text-sm truncate">{row.original.id}</span>
         </div>
       ),
     },

@@ -32,12 +32,15 @@ interface GuestDetailsRegistrationProps {
 }
 
 const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
+  const isReservationChecked = form.watch("reservation");
+  const isListedCompanyChecked = form.watch("listedCompany");
+
   return (
     <div className=" pb-6 mb-6">
       {/* Row 1: Reservation, Check In Date & Time, Departure Date & Time, Total Nights, Linked Company */}
       <div className="grid grid-cols-1 2xl:grid-cols-12 lg:grid-cols-8 w-full gap-5">
         {/* Reservation Checkbox and Select */}
-        <div className="md:col-span-3 flex gap-3 ">
+        <div className="md:col-span-3 flex gap-3 items-start ">
           <FormField
             control={form.control}
             name="reservation"
@@ -67,9 +70,15 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={!isReservationChecked}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-[35px] bg-[#e9ecef]">
+                    <SelectTrigger
+                      className={cn(
+                        "h-[35px] bg-[#e9ecef]",
+                        !isReservationChecked && "opacity-50 cursor-not-allowed"
+                      )}
+                    >
                       <SelectValue placeholder="-- Please Select --" />
                     </SelectTrigger>
                   </FormControl>
@@ -238,6 +247,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
         </div>
 
         {/* Total Nights */}
+
         <div className="md:col-span-2">
           <FormField
             control={form.control}
@@ -251,7 +261,9 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                   <Input
                     type="number"
                     placeholder="0"
-                    className="h-[35px] bg-[#e9ecef]  px-2 appearance-none"
+                    className="h-[35px] bg-[#e9ecef]  px-2 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
                     {...field}
                   />
                 </FormControl>
@@ -294,9 +306,16 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={!isListedCompanyChecked}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-[35px] w-full bg-[#e9ecef]">
+                    <SelectTrigger
+                      className={cn(
+                        "h-[35px] w-full bg-[#e9ecef]",
+                        !isListedCompanyChecked &&
+                          "opacity-50 cursor-not-allowed"
+                      )}
+                    >
                       <SelectValue placeholder="-- Please Select --" />
                     </SelectTrigger>
                   </FormControl>
@@ -354,7 +373,9 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                   <Input
                     type="number"
                     placeholder="1.00"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
+                    className="h-[35px] bg-[#e9ecef] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
                     {...field}
                   />
                 </FormControl>

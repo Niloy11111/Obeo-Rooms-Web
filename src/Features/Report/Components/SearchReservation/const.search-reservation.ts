@@ -2,7 +2,7 @@ export const searchFormDefaultValues = {
   roomType: undefined,
   fromDate: undefined,
   toDate: undefined,
-  reservationNo: "",
+  reservationNo: undefined,
   guestName: "",
   guestPhone: "",
   companyName: undefined,

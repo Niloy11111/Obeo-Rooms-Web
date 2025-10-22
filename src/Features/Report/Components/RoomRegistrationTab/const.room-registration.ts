@@ -7,7 +7,7 @@ export const completeFormDefaultValuesForRegistration = {
   departureDate: undefined,
   departureTime: "",
   totalNights: "",
-  linkedCompany: false,
+  listedCompany: false,
   listedCompanySelect: "",
   currencyName: "BDT",
   conversionRate: "1.00",

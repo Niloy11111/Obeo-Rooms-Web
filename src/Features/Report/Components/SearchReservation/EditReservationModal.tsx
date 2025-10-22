@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useEffect } from "react";
@@ -13,6 +14,13 @@ import {
   FormMessage,
 } from "../../../../components/ui/form";
 import { Input } from "../../../../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../../components/ui/select";
 import { IReservation } from "../../types/search-reservation";
 
 const EditSchema = z.object({
@@ -26,7 +34,7 @@ const EditSchema = z.object({
   reservationStatus: z.string().optional(),
 });
 
-type EditValues = z.infer<typeof EditSchema>;
+export type EditValues = z.infer<typeof EditSchema>;
 
 const EditReservationModal = ({
   item,
@@ -93,7 +101,7 @@ const EditReservationModal = ({
                   <FormItem>
                     <FormLabel>Mobile</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="number" inputMode="decimal" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -121,10 +129,24 @@ const EditReservationModal = ({
                 name="reservationStatus"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reservation Status</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
+                    <FormLabel className="">Reservation Status</FormLabel>
+                    <FormControl className="">
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={item?.reservationStatus as any}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="-- Please Select --" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Confirmed">Confirmed</SelectItem>
+                          <SelectItem value="Waiting">Waiting</SelectItem>
+                          <SelectItem value="Cancelled">Cancelled</SelectItem>
+                          <SelectItem value="Pending">Pending</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -147,3 +169,19 @@ const EditReservationModal = ({
 };
 
 export default EditReservationModal;
+
+{
+  /* <FormField
+                control={form.control}
+                name="reservationStatus"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Reservation Status</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              /> */
+}

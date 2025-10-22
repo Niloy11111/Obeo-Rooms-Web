@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import z from "zod";
 import { Calendar } from "../../../../components/ui/calendar";
@@ -35,6 +36,15 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
   const isReservationChecked = form.watch("reservation");
   const isListedCompanyChecked = form.watch("listedCompany");
 
+  useEffect(() => {
+    if (!isReservationChecked) {
+      form.setValue("reservationSelect", "");
+    }
+    if (!isListedCompanyChecked) {
+      form.setValue("listedCompanySelect", "");
+    }
+  }, [isReservationChecked, isListedCompanyChecked, form]);
+
   return (
     <div className=" pb-6 mb-6">
       {/* Row 1: Reservation, Check In Date & Time, Departure Date & Time, Total Nights, Linked Company */}
@@ -46,7 +56,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
             name="reservation"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="font-normal  mb-1">Reservation</FormLabel>
+                <FormLabel className="font-normal  ">Reservation</FormLabel>
                 <FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center mx-auto w-[35px]">
                     <input
@@ -69,7 +79,8 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                 <FormLabel className="invisible font-normal ">Select</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
+                  value={field.value}
                   disabled={!isReservationChecked}
                 >
                   <FormControl>
@@ -114,7 +125,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                           format(field.value, "yyyy-MM-dd")
                         ) : (
                           <span className="font-Inter ">
-                            {format(new Date(), "yyyy-MM-dd")}
+                            <span className="font-Inter">Select a Date</span>
                           </span>
                         )}
                         <CalendarIcon className="h-3 w-3 opacity-50" />
@@ -190,7 +201,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                           format(field.value, "yyyy-MM-dd")
                         ) : (
                           <span className="font-Inter ">
-                            {format(new Date(), "yyyy-MM-dd")}
+                            <span className="font-Inter">Select a Date</span>
                           </span>
                         )}
                         <CalendarIcon className="h-3 w-3 opacity-50" />
@@ -254,9 +265,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
             name="totalNights"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col">
-                <FormLabel className="font-normal  mb-1">
-                  Total Nights
-                </FormLabel>
+                <FormLabel className="font-normal  ">Total Nights</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -265,6 +274,12 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -280,7 +295,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
             name="listedCompany"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="font-normal  mb-1 whitespace-nowrap">
+                <FormLabel className="font-normal   whitespace-nowrap">
                   Listed Company
                 </FormLabel>
                 <FormControl>
@@ -305,7 +320,8 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                 <FormLabel className="invisible font-normal ">Select</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  // defaultValue={field.value}
+                  value={field.value}
                   disabled={!isListedCompanyChecked}
                 >
                   <FormControl>

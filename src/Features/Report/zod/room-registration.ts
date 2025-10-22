@@ -11,14 +11,14 @@ export const CompleteSchemaRegistration = z.object({
     .refine((val) => val !== undefined, {
       message: "Please select a check-in date",
     }),
-  checkInTime: z.string().nonempty("Please select check-in time"),
+  checkInTime: z.string().optional(),
   departureDate: z
     .date()
     .optional()
     .refine((val) => val !== undefined, {
       message: "Please select a departure date",
     }),
-  departureTime: z.string().nonempty("Please select departure time"),
+  departureTime: z.string().optional(),
   totalNights: z.string().nonempty("Please enter total nights"),
   listedCompany: z.boolean().optional(),
 
@@ -74,7 +74,7 @@ export const CompleteSchemaRegistration = z.object({
     .refine((val) => val !== undefined, {
       message: "Please select a service to date",
     }),
-  totalServiceAmount: z.string().optional(),
+  totalServiceAmount: z.string().min(1, "Total Service Amount is required"),
 
   // Section 3: Additional Information
   marketSegment: z.string().min(1, "Market segment is required"),

@@ -12,13 +12,7 @@ import {
   selectRoomDetailedInfomrationsForRegistration,
   setRoomRegistrationFullData,
 } from "../reportSlices/reportSlice";
-// import {
-//   completeFormDefaultValuesForRegistration,
-//   ROOM_FIELDS_REGISTRATION,
-// } from "../Components/RoomRegistration/const.room-registration";
-// import GuestDetailsRegistration from "../Components/RoomRegistration/GuestDetailsRegistration";
-// import RoomDetailedInformationRegistration from "../Components/RoomRegistration/RoomDetailedInformationRegistration";
-// import AdditionalInformationRegistration from "../Components/RoomRegistration/AdditionalInformationRegistration";
+
 import AdditionalInformationRegistration from "../Components/RoomRegistrationTab/AdditionalInformationRegistration";
 import {
   completeFormDefaultValuesForRegistration,
@@ -34,7 +28,19 @@ import {
 const RoomRegistrationTab = () => {
   const form = useForm({
     resolver: zodResolver(CompleteSchemaRegistration),
-    defaultValues: completeFormDefaultValuesForRegistration,
+    defaultValues: {
+      ...completeFormDefaultValuesForRegistration,
+      checkInTime: new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
+      departureTime: new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
+    },
   });
 
   const dispatch = useAppDispatch();

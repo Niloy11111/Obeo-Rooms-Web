@@ -101,7 +101,12 @@ const EditReservationModal = ({
                   <FormItem>
                     <FormLabel>Mobile</FormLabel>
                     <FormControl>
-                      <Input {...field} type="number" inputMode="decimal" />
+                      <Input
+                        {...field}
+                        type="number"
+                        className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+                        inputMode="decimal"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

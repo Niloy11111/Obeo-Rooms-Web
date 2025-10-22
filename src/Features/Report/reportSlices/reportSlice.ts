@@ -2,11 +2,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Redux/store";
 
+import { completeFormDefaultValuesForGuestDetails } from "../Components/GuestDetailsTab/const.guest-details";
 import { completeFormDefaultValuesForRegistration } from "../Components/RoomRegistrationTab/const.room-registration";
 import { completeFormDefaultValues } from "../Components/RoomReservation/const.room-reservation";
 import {
   IBillTransfer,
   IDrop,
+  IGuestDetails,
   IPickUp,
   IRoomDetails,
   IRoomDetailsRegistration,
@@ -23,6 +25,10 @@ interface InitialStateTypes {
   // Room Registration State
   roomDetailedInfomrationsForRegistration: IRoomDetailsRegistration[];
   roomRegistrationFullData: Record<string, any>;
+
+  // Guest Details State
+  guestDetailsData: IGuestDetails[];
+  guestDetailsFullData: Record<string, any>;
 }
 
 export const initialState: InitialStateTypes = {
@@ -36,6 +42,10 @@ export const initialState: InitialStateTypes = {
   // Room Registration Initial State
   roomDetailedInfomrationsForRegistration: [],
   roomRegistrationFullData: completeFormDefaultValuesForRegistration,
+
+  // Guest Details Initial State
+  guestDetailsData: [],
+  guestDetailsFullData: completeFormDefaultValuesForGuestDetails,
 };
 
 export const reportSlice = createSlice({
@@ -125,6 +135,30 @@ export const reportSlice = createSlice({
       state.roomRegistrationFullData = completeFormDefaultValuesForRegistration;
     },
 
+    // Guest Details Actions
+    setGuestDetailsData: (state, action: PayloadAction<IGuestDetails>) => {
+      state.guestDetailsData = [...state.guestDetailsData, action.payload];
+    },
+    clearGuestDetailsData: (state) => {
+      state.guestDetailsData = [];
+    },
+    removeGuestDetails: (state, action: PayloadAction<number>) => {
+      state.guestDetailsData = state.guestDetailsData.filter(
+        (_, index) => index !== action.payload
+      );
+    },
+    setGuestDetailsFullData: (
+      state,
+      action: PayloadAction<
+        Record<string, any> | typeof completeFormDefaultValuesForGuestDetails
+      >
+    ) => {
+      state.guestDetailsFullData = action.payload;
+    },
+    clearGuestDetailsFullData: (state) => {
+      state.guestDetailsFullData = completeFormDefaultValuesForGuestDetails;
+    },
+
     // Complimentary Items Actions
     setComplimentaryItems: (state, action: PayloadAction<string[]>) => {
       state.complimentaryItems = action.payload ?? [];
@@ -154,6 +188,13 @@ export const {
   setRoomRegistrationFullData,
   clearRoomRegistrationFullData,
 
+  // Guest Details Actions Export
+  setGuestDetailsData,
+  clearGuestDetailsData,
+  removeGuestDetails,
+  setGuestDetailsFullData,
+  clearGuestDetailsFullData,
+
   // Complimentary Items Actions Export
   setComplimentaryItems,
   clearComplimentaryItems,
@@ -182,6 +223,13 @@ export const selectRoomRegistrationFullData = (state: RootState) =>
 export const selectRoomDetailedInfomrationsForRegistration = (
   state: RootState
 ) => state.report.roomDetailedInfomrationsForRegistration;
+
+// Guest Details Selectors
+export const selectGuestDetailsData = (state: RootState) =>
+  state.report.guestDetailsData;
+
+export const selectGuestDetailsFullData = (state: RootState) =>
+  state.report.guestDetailsFullData;
 
 // Complimentary Items Selectors
 export const selectComplimentaryItems = (state: RootState) =>

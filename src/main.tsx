@@ -12,6 +12,8 @@ import BillTransferReport from "./Features/Report/Pages/BillTransferReport.tsx";
 
 import AdvancePaymentTab from "./Features/Report/Pages/AdvancePaymentTab.tsx";
 import ComplimentaryItemTab from "./Features/Report/Pages/ComplimentaryItemTab.tsx";
+import GuestDetailsTab from "./Features/Report/Pages/GuestDetailsTab.tsx";
+import OthersInformationTab from "./Features/Report/Pages/OthersInformationTab.tsx";
 import RoomRegistrationTab from "./Features/Report/Pages/RoomRegistrationTab.tsx";
 import RoomReservation from "./Features/Report/Pages/RoomReservation.tsx";
 import SearchReservation from "./Features/Report/Pages/SearchReservation.tsx";
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
       {
         path: "/report/room-registration",
         element: <RoomRegistrationTab />,
+      },
+      {
+        path: "/report/guest-details",
+        element: <GuestDetailsTab />,
+      },
+      {
+        path: "/report/others-informations",
+        element: <OthersInformationTab />,
       },
     ],
   },

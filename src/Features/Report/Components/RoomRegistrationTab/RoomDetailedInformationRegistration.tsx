@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import z from "zod";
 import { Button } from "../../../../components/ui/button";
@@ -61,6 +62,27 @@ const RoomDetailedInformationRegistration = ({
   const isCityChargeEnabled = form.watch("cityChargeEnabled");
   const isAdditionalChargesEnabled = form.watch("additionalChargesEnabled");
 
+  useEffect(() => {
+    if (!isServiceChargeEnabled) {
+      form.setValue("serviceChargeAmount", "");
+    }
+    if (!isVatAmountEnabled) {
+      form.setValue("vatAmountValue", "");
+    }
+    if (!isCityChargeEnabled) {
+      form.setValue("cityChargeValue", "");
+    }
+    if (!isAdditionalChargesEnabled) {
+      form.setValue("additionalChargesValue", "");
+    }
+  }, [
+    isServiceChargeEnabled,
+    isVatAmountEnabled,
+    isCityChargeEnabled,
+    isAdditionalChargesEnabled,
+    form,
+  ]);
+
   const handleAddRoom = async () => {
     try {
       // Get only Room Details fields, not all form values
@@ -98,7 +120,7 @@ const RoomDetailedInformationRegistration = ({
   };
 
   return (
-    <div className=" bg-[#f2f2f2] pb-6 mb-6">
+    <div className=" bg-[#f2f2f2] p-8 pb-6 mb-6">
       <h3 className="font-medium mb-4 bg-gray-800 text-white px-3 py-2 rounded">
         Room Detailed Information
       </h3>
@@ -151,6 +173,12 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -175,6 +203,12 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -184,7 +218,15 @@ const RoomDetailedInformationRegistration = ({
         </div>
 
         {/* Room List Button */}
-        <div className="col-span-2 flex items-center">
+        <div
+          className={`col-span-2 flex ${
+            form.formState.errors.roomTypes ||
+            form.formState.errors.adultPerRoom ||
+            form.formState.errors.childPerRoom
+              ? "items-center mb-1"
+              : "items-end"
+          } w-full`}
+        >
           <Button
             type="button"
             className="bg-cyan-500 hover:bg-cyan-600 text-white h-[35px] w-full"
@@ -205,9 +247,19 @@ const RoomDetailedInformationRegistration = ({
                 <FormLabel className="font-normal">Room Number</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
                     {...field}
+                    type="number"
+                    placeholder="0"
+                    className="h-[35px] bg-[#e9ecef] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -224,9 +276,18 @@ const RoomDetailedInformationRegistration = ({
                 <FormLabel className="font-normal">Rack Rate</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
+                    type="number"
+                    placeholder="0"
+                    className="h-[35px] bg-[#e9ecef]  px-2 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
                     {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -274,10 +335,19 @@ const RoomDetailedInformationRegistration = ({
                 <FormLabel className="font-normal">Discount Amount</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
                     placeholder="0"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
                     {...field}
+                    type="number"
+                    className="h-[35px] bg-[#e9ecef]  px-2 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -299,9 +369,20 @@ const RoomDetailedInformationRegistration = ({
                 <FormLabel className="font-normal">Negotiated Rate</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
-                    className="h-[35px] bg-[#e9ecef] appearance-none"
                     {...field}
+                    placeholder="0"
+                    {...field}
+                    type="number"
+                    className="h-[35px] bg-[#e9ecef]  px-2 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                    {...field}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || parseFloat(value) >= 0) {
+                        field.onChange(value);
+                      }
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -321,10 +402,19 @@ const RoomDetailedInformationRegistration = ({
                 <div className="flex items-center">
                   <FormControl>
                     <Input
-                      type="text"
-                      className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
-                      {...field}
                       disabled={!isServiceChargeEnabled}
+                      type="number"
+                      placeholder="0"
+                      className="h-[35px] bg-[#e9ecef] flex-1 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "" || parseFloat(value) >= 0) {
+                          field.onChange(value);
+                        }
+                      }}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -361,10 +451,20 @@ const RoomDetailedInformationRegistration = ({
                 <div className="flex items-center">
                   <FormControl>
                     <Input
-                      type="text"
-                      className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
                       disabled={!isVatAmountEnabled}
+                      type="number"
+                      placeholder="0"
+                      className="h-[35px] bg-[#e9ecef] flex-1 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "" || parseFloat(value) >= 0) {
+                          field.onChange(value);
+                        }
+                      }}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -401,10 +501,20 @@ const RoomDetailedInformationRegistration = ({
                 <div className="flex items-center">
                   <FormControl>
                     <Input
-                      type="text"
-                      className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
                       disabled={!isCityChargeEnabled}
+                      type="number"
+                      placeholder="0"
+                      className="h-[35px] bg-[#e9ecef] flex-1 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "" || parseFloat(value) >= 0) {
+                          field.onChange(value);
+                        }
+                      }}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -443,10 +553,20 @@ const RoomDetailedInformationRegistration = ({
                 <div className="flex items-center">
                   <FormControl>
                     <Input
-                      type="text"
-                      className="h-[35px] bg-[#e9ecef] appearance-none flex-1"
                       {...field}
                       disabled={!isAdditionalChargesEnabled}
+                      type="number"
+                      placeholder="0"
+                      className="h-[35px] bg-[#e9ecef] flex-1 appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
+                    "
+                      {...field}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === "" || parseFloat(value) >= 0) {
+                          field.onChange(value);
+                        }
+                      }}
                     />
                   </FormControl>
                   <div className="border border-gray-200 h-[35px] flex items-center justify-center w-[40px]">
@@ -530,11 +650,9 @@ const RoomDetailedInformationRegistration = ({
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, "yyyy-MM-dd")
                         ) : (
-                          <span className="font-Inter">
-                            {format(new Date(), "yyyy-MM-dd")}
-                          </span>
+                          <span className="font-Inter">Select a Date</span>
                         )}
                         <CalendarIcon className="h-4 w-4 opacity-50" />
                       </div>
@@ -578,10 +696,10 @@ const RoomDetailedInformationRegistration = ({
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, "yyyy-MM-dd")
                         ) : (
                           <span className="font-Inter">
-                            {format(new Date(), "yyyy-MM-dd")}
+                            <span className="font-Inter">Select a Date</span>
                           </span>
                         )}
                         <CalendarIcon className="h-4 w-4 opacity-50" />
@@ -702,10 +820,10 @@ const RoomDetailedInformationRegistration = ({
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "yyyy-MM-dd")
                           ) : (
                             <span className="font-Inter">
-                              {format(new Date(), "yyyy-MM-dd")}
+                              <span className="font-Inter">Select a Date</span>
                             </span>
                           )}
                           <CalendarIcon className="h-4 w-4 opacity-50" />
@@ -750,10 +868,10 @@ const RoomDetailedInformationRegistration = ({
                           )}
                         >
                           {field.value ? (
-                            format(field.value, "PPP")
+                            format(field.value, "yyyy-MM-dd")
                           ) : (
                             <span className="font-Inter">
-                              {format(new Date(), "yyyy-MM-dd")}
+                              <span className="font-Inter">Select a Date</span>
                             </span>
                           )}
                           <CalendarIcon className="h-4 w-4 opacity-50" />
@@ -797,11 +915,17 @@ const RoomDetailedInformationRegistration = ({
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="" />
                 </FormItem>
               )}
             />
-            <div className="col-span-3 flex items-end">
+            <div
+              className={`col-span-3 flex ${
+                form.formState.errors.totalServiceAmount
+                  ? "items-center mb-1"
+                  : "items-end "
+              }`}
+            >
               <Button
                 type="button"
                 className="bg-cyan-500 hover:bg-cyan-600 text-white h-[35px]"

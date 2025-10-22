@@ -17,6 +17,7 @@ import OthersInformationTab from "./Features/Report/Pages/OthersInformationTab.t
 import RoomRegistrationTab from "./Features/Report/Pages/RoomRegistrationTab.tsx";
 import RoomReservation from "./Features/Report/Pages/RoomReservation.tsx";
 import SearchReservation from "./Features/Report/Pages/SearchReservation.tsx";
+import SearchTab from "./Features/Report/Pages/SearchTab.tsx";
 import Home from "./home/Home.tsx";
 import "./index.css";
 import { persistor, store } from "./Redux/store.ts";
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "/report/others-informations",
         element: <OthersInformationTab />,
+      },
+      {
+        path: "/report/search",
+        element: <SearchTab />,
       },
     ],
   },

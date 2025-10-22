@@ -28,56 +28,32 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { cn } from "../../../lib/utils";
-
-// Zod Schema
-const SearchSchema = z
-  .object({
-    roomTypes: z.string().optional(),
-    roomNumber: z.string().optional(),
-    registrationNumber: z.string().optional(),
-    reservationNumber: z.string().optional(),
-    checkInDate: z.date().optional(),
-    companyName: z.string().optional(),
-    country: z.string().optional(),
-    nameOfTheGuest: z.string().optional(),
-    guestPhoneNumber: z.string().optional(),
-    contactPersonPhoneNumber: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      // At least one field must be filled
-      return Object.values(data).some((value) => {
-        if (value === undefined || value === null || value === "") return false;
-        return true;
-      });
-    },
-    {
-      message: "Please provide at least one search criteria",
-      path: ["roomTypes"], // Show error on first field
-    }
-  );
+import { SearchTabSchema } from "../zod/search-tab";
 
 // Default Values
 const formDefaultValues = {
-  roomTypes: "",
+  roomTypes: undefined,
   roomNumber: "",
-  registrationNumber: "",
-  reservationNumber: "",
+  registrationNumber: undefined,
+  reservationNumber: undefined,
   checkInDate: undefined,
-  companyName: "",
-  country: "",
+  companyName: undefined,
+  country: undefined,
   nameOfTheGuest: "",
-  guestPhoneNumber: "",
+  guestPhoneNumber: undefined,
   contactPersonPhoneNumber: "",
 };
 
 const SearchTab = () => {
   const form = useForm({
-    resolver: zodResolver(SearchSchema),
+    resolver: zodResolver(SearchTabSchema),
     defaultValues: formDefaultValues,
+    mode: "onSubmit",
   });
 
-  const onSubmitHandleSearch = async (data: z.infer<typeof SearchSchema>) => {
+  const onSubmitHandleSearch = async (
+    data: z.infer<typeof SearchTabSchema>
+  ) => {
     try {
       // Filter out empty values
       const filledData = Object.entries(data).reduce((acc, [key, value]) => {
@@ -88,7 +64,6 @@ const SearchTab = () => {
       }, {} as Record<string, any>);
 
       console.log("Search criteria:", filledData);
-      form.reset(formDefaultValues);
       // Perform search with filledData...
     } catch (error) {
       console.error("Error searching:", error);
@@ -249,47 +224,37 @@ const SearchTab = () => {
                     name="checkInDate"
                     render={({ field }) => (
                       <FormItem className="flex w-full flex-col">
-                        <FormLabel className="font-normal ">
-                          Check In Date
+                        <FormLabel className="font-normal">
+                          Check-In Date
                         </FormLabel>
-                        <Popover>
-                          <PopoverTrigger>
-                            <FormControl>
+                        <FormControl>
+                          <Popover>
+                            <PopoverTrigger className="w-full">
                               <div
                                 className={cn(
-                                  "flex w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between border border-[#E9E9E9] px-2 py-2 cursor-pointer font-Inter ",
+                                  "flex w-full h-[35px] rounded-[4px] bg-[#e9ecef] items-center justify-between border border-[#E9E9E9] px-3 py-2 text-sm cursor-pointer",
                                   !field.value && "text-muted-foreground"
                                 )}
                               >
-                                {field.value ? (
-                                  format(field.value, "yyyy-MM-dd")
-                                ) : (
-                                  <span className="font-Inter ">
-                                    <span className="font-Inter">
-                                      Select a Date
-                                    </span>
-                                  </span>
-                                )}
-                                <CalendarIcon className="h-3 w-3 opacity-50" />
+                                {field.value
+                                  ? format(field.value, "yyyy-MM-dd")
+                                  : "Check-In Date"}
+                                <CalendarIcon className="h-4 w-4 opacity-50" />
                               </div>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="border border-[#E9E9E9] w-auto p-0"
-                            align="start"
-                          >
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              captionLayout="dropdown"
-                            />
-                          </PopoverContent>
-                        </Popover>
+                            </PopoverTrigger>
+                            <PopoverContent className="p-0 w-auto">
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                captionLayout="dropdown"
+                                disabled={(date) =>
+                                  date < new Date("1900-01-01")
+                                }
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}

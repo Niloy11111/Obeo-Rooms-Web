@@ -173,12 +173,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -203,12 +197,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -254,12 +242,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -282,12 +264,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -342,12 +318,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -377,12 +347,6 @@ const RoomDetailedInformationRegistration = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -910,7 +874,7 @@ const RoomDetailedInformationRegistration = ({
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="text"
+                      type="number"
                       className="h-[35px] bg-white appearance-none"
                       {...field}
                     />
@@ -921,9 +885,12 @@ const RoomDetailedInformationRegistration = ({
             />
             <div
               className={`col-span-3 flex ${
-                form.formState.errors.totalServiceAmount
+                form.formState.errors.totalServiceAmount ||
+                form.formState.errors.serviceName ||
+                form.formState.errors.serviceFromDate ||
+                form.formState.errors.serviceToDate
                   ? "items-center mb-1"
-                  : "items-end "
+                  : "items-end"
               }`}
             >
               <Button

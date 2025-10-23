@@ -28,6 +28,7 @@ import {
 const RoomRegistrationTab = () => {
   const form = useForm({
     resolver: zodResolver(CompleteSchemaRegistration),
+    mode: "onChange",
     defaultValues: {
       ...completeFormDefaultValuesForRegistration,
       checkInTime: new Date().toLocaleTimeString("en-GB", {

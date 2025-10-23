@@ -86,6 +86,12 @@ const IndividualGuestInformation = ({
     dispatch(removeGuestDetails(index));
   };
 
+  const handleClearGuestFields = () => {
+    GUEST_DETAILS_KEYS.forEach((key) => {
+      form.resetField(key as any);
+    });
+  };
+
   return (
     <div className="bg-[#f2f2f2] p-8 pb-6 mb-6">
       <h3 className="font-medium mb-4 bg-gray-800 text-white px-3 py-2 rounded">
@@ -169,7 +175,7 @@ const IndividualGuestInformation = ({
         </div>
 
         {/* Room Number */}
-        <div className="2xl:col-span-3 lg:col-span-4 flex items-end gap-2">
+        <div className="2xl:col-span-3 lg:col-span-4 flex gap-2">
           <FormField
             control={form.control}
             name="roomNumber"
@@ -185,24 +191,26 @@ const IndividualGuestInformation = ({
                     "
                     {...field}
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button
-            type="button"
-            className="bg-blue-600 hover:bg-blue-700 text-white h-[35px] whitespace-nowrap"
+          <div
+            className={` flex ${
+              form.formState.errors.roomNumber
+                ? "items-center mb-1"
+                : "items-end "
+            }`}
           >
-            Search Guest
-          </Button>
+            <Button
+              type="button"
+              className="bg-blue-600 hover:bg-blue-700 text-white h-[35px] whitespace-nowrap"
+            >
+              Search Guest
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -474,12 +482,6 @@ const IndividualGuestInformation = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -577,12 +579,6 @@ const IndividualGuestInformation = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -609,12 +605,6 @@ const IndividualGuestInformation = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -735,12 +725,6 @@ const IndividualGuestInformation = ({
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -940,7 +924,7 @@ const IndividualGuestInformation = ({
         <Button
           className="bg-yellow-500 hover:bg-yellow-600 h-[35px] rounded-[4px] cursor-pointer font-normal text-white"
           type="button"
-          onClick={() => form.reset()}
+          onClick={handleClearGuestFields}
         >
           Clear
         </Button>

@@ -4,21 +4,21 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "../../../components/ui/button";
 import { Form } from "../../../components/ui/form";
+
+import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
-
-import {
-  clearGuestDetailsData,
-  clearGuestDetailsFullData,
-  selectGuestDetailsData,
-  setGuestDetailsFullData,
-} from "../reportSlices/reportSlice";
-
 import {
   completeFormDefaultValuesForGuestDetails,
   GUEST_FIELDS,
 } from "../Components/GuestDetailsTab/const.guest-details";
 import GuestDetailsHeader from "../Components/GuestDetailsTab/GuestDetailsHeader";
 import IndividualGuestInformation from "../Components/GuestDetailsTab/IndividualGuestInformation";
+import {
+  clearGuestDetailsData,
+  clearGuestDetailsFullData,
+  selectGuestDetailsData,
+  setGuestDetailsFullData,
+} from "../reportSlices/reportSlice";
 import {
   CompleteSchemaGuestDetails,
   GuestDetailsSchema,
@@ -27,6 +27,7 @@ import {
 const GuestDetailsTab = () => {
   const form = useForm({
     resolver: zodResolver(CompleteSchemaGuestDetails),
+    mode: "onChange",
     defaultValues: completeFormDefaultValuesForGuestDetails,
   });
 
@@ -49,19 +50,22 @@ const GuestDetailsTab = () => {
     data: z.infer<typeof CompleteSchemaGuestDetails>
   ) => {
     try {
-      // make shallow copy, remove all keys in GUEST_FIELDS
+      if (!guestDetails || guestDetails.length === 0) {
+        toast.error("Please add Individual Guest Information");
+        return;
+      }
+
       const copy = { ...data } as Record<string, any>;
       GUEST_FIELDS.forEach((k) => delete copy[k]);
 
-      // attach redux guestDetails array (normalize here if needed)
       const payload = {
         ...copy,
-        guestDetails: guestDetails || [],
+        guestDetails: guestDetails,
       };
 
       console.log("Guest Details payload", payload);
-      // send payload...
 
+      dispatch(clearGuestDetailsData());
       dispatch(setGuestDetailsFullData(payload));
       form.reset();
     } catch (error) {

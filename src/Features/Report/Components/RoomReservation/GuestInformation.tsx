@@ -211,7 +211,8 @@ const GuestInformation = ({ form }: CompleteInformationProps) => {
                     <Input
                       type="number"
                       placeholder="0"
-                      className="h-[35px] bg-[#e9ecef] appearance-none"
+                      className="h-[35px] bg-[#e9ecef] appearance-none
+                    [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                       {...field}
                     />
                   </FormControl>

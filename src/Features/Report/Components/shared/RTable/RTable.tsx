@@ -53,7 +53,9 @@ export function RTable<TData, TValue>({
                 ? "Airport Pick Up Information"
                 : name === "billTransferReport"
                 ? "Bill Transfort Information"
-                : name === "roomDetailsReport" || name === "searchReservation"
+                : name === "roomDetailsReport" ||
+                  name === "searchReservation" ||
+                  name === "guestDetailsReport"
                 ? ""
                 : "Airport Drop Information"}
             </TableHead>

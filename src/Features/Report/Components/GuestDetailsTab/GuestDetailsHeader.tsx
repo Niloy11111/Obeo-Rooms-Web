@@ -35,12 +35,6 @@ const GuestDetailsHeader = ({ form }: GuestDetailsHeaderProps) => {
                     type="number"
                     placeholder="0"
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                     className="h-[35px] bg-[#e9ecef] appearance-none
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                   />
@@ -89,12 +83,6 @@ const GuestDetailsHeader = ({ form }: GuestDetailsHeaderProps) => {
                     type="number"
                     placeholder="0"
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                     className="h-[35px] bg-[#e9ecef] appearance-none
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
                   />

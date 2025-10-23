@@ -274,12 +274,6 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                     [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]
                     "
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "" || parseFloat(value) >= 0) {
-                        field.onChange(value);
-                      }
-                    }}
                   />
                 </FormControl>
                 <FormMessage />

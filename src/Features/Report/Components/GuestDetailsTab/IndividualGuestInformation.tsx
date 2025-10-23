@@ -75,6 +75,7 @@ const IndividualGuestInformation = ({
         });
         return;
       }
+      form.reset();
       dispatch(setGuestDetailsData(guestDetailsValues as IGuestDetails));
       await onSubmitHandleGuestDetails(result.data);
     } catch (error) {
@@ -111,6 +112,7 @@ const IndividualGuestInformation = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -296,6 +298,7 @@ const IndividualGuestInformation = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -327,6 +330,7 @@ const IndividualGuestInformation = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -399,6 +403,7 @@ const IndividualGuestInformation = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -500,6 +505,7 @@ const IndividualGuestInformation = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">

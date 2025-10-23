@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Button } from "../../../components/ui/button";
 import { Form } from "../../../components/ui/form";
 
+import { useEffect } from "react";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 import {
@@ -84,6 +85,10 @@ const GuestDetailsTab = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    dispatch(clearGuestDetailsData());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen text-sm font-Inter bg-gray-100">

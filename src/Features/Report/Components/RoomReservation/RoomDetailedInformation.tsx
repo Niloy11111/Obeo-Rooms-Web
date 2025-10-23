@@ -85,6 +85,12 @@ const RoomDetailedInformation = ({
     dispatch(removeRoomDetailedInfomration(0));
   };
 
+  const handleClearFields = () => {
+    ROOM_DETAILS_KEYS.forEach((key) => {
+      form.resetField(key as any);
+    });
+  };
+
   return (
     <div className=" border-b bg-[#f2f2f2] pb-6 mb-6">
       <h3 className=" font-medium mb-4 bg-gray-800 text-white px-3 py-2 rounded">
@@ -851,7 +857,7 @@ const RoomDetailedInformation = ({
         <Button
           className="bg-yellow-500 hover:bg-yellow-600 h-[35px] rounded-[4px] cursor-pointer font-normal text-white"
           type="button"
-          onClick={() => form.reset()}
+          onClick={handleClearFields}
         >
           Cancel
         </Button>

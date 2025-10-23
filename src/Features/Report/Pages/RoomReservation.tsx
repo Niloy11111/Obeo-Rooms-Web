@@ -7,6 +7,8 @@ import { Button } from "../../../components/ui/button";
 import { Form } from "../../../components/ui/form";
 import { useAppDispatch, useAppSelector } from "../../../Redux/hooks";
 
+import { useEffect } from "react";
+import { toast } from "sonner";
 import {
   completeFormDefaultValues,
   ROOM_FIELDS,
@@ -25,6 +27,7 @@ import { CompleteSchema, RoomDetailsSchema } from "../zod/room-reservation";
 const RoomReservation = () => {
   const form = useForm({
     resolver: zodResolver(CompleteSchema),
+    mode: "onChange",
     defaultValues: completeFormDefaultValues,
   });
 
@@ -47,6 +50,11 @@ const RoomReservation = () => {
     data: z.infer<typeof CompleteSchema>
   ) => {
     try {
+      if (!roomDetails || roomDetails.length === 0) {
+        toast.error("Please add roomDetails");
+        return;
+      }
+
       // make shallow copy, remove all keys in ROOM_FIELDS
       const copy = { ...data } as Record<string, any>;
       ROOM_FIELDS.forEach((k) => delete copy[k]);
@@ -77,6 +85,11 @@ const RoomReservation = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    dispatch(clearRoomDetailedInfomrations());
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen  text-sm font-Inter bg-gray-100">
       <div className="p-5 ">

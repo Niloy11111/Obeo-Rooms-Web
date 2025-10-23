@@ -13,6 +13,7 @@ import {
   setRoomRegistrationFullData,
 } from "../reportSlices/reportSlice";
 
+import { useEffect } from "react";
 import { toast } from "sonner";
 import AdditionalInformationRegistration from "../Components/RoomRegistrationTab/AdditionalInformationRegistration";
 import {
@@ -103,6 +104,10 @@ const RoomRegistrationTab = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    dispatch(clearRoomDetailedInfomrationsForRegistration());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen text-sm font-Inter bg-gray-100">

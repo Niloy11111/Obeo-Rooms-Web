@@ -353,6 +353,7 @@ const GuestDetailsRegistration = ({ form }: GuestDetailsRegistrationProps) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">

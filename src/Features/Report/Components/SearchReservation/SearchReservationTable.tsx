@@ -1,14 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  Clock,
-  Download,
-  Edit2,
-  FileText,
-  MoveDown,
-  MoveUp,
-  RefreshCcw,
-  Trash2,
-} from "lucide-react";
+import { Download, Edit2, MoveDown, MoveUp, Trash2 } from "lucide-react";
 import { IReservation } from "../../types/search-reservation";
 import { RTable } from "../shared/RTable/RTable";
 
@@ -136,96 +127,34 @@ const SearchReservationTable = ({
       header: "Action",
       accessorFn: (row) => row.id,
       cell: ({ row }) => {
-        const regStatus = (
-          row.original?.registrationStatus || ""
-        ).toLowerCase();
-        // If pending: show 6 actions; if registered (or others) show 3 actions.
-        const isPending = regStatus === "pending";
-
         return (
           <div className="flex items-center justify-center gap-2">
             {/* always show View */}
 
-            {isPending ? (
-              <div className="flex flex-col gap-2">
-                {/* pending: show Edit, Delete, Download, Copy, Refresh, Clock */}
-                <div className="flex gap-2">
-                  <button
-                    title="Edit"
-                    className="p-2 rounded bg-blue-600 text-white"
-                    onClick={() => onEdit(row.original)}
-                  >
-                    <Edit2 size={14} />
-                  </button>
+            <div className="flex gap-2">
+              <button
+                title="Edit"
+                className="p-2 rounded bg-blue-600 text-white"
+                onClick={() => onEdit(row.original)}
+              >
+                <Edit2 size={14} />
+              </button>
 
-                  <button
-                    title="Delete"
-                    className="p-2 rounded bg-red-500 text-white"
-                    onClick={() => onDelete(row.original.id)}
-                  >
-                    <Trash2 size={14} />
-                  </button>
-
-                  <button
-                    title="Clock"
-                    className="p-2 rounded bg-emerald-400 text-white"
-                    onClick={() => alert("Clock action (UI only)")}
-                  >
-                    <Clock size={14} />
-                  </button>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    title="View"
-                    className="p-2 rounded bg-sky-600 text-white"
-                    onClick={() => alert("View (UI only)")}
-                  >
-                    <FileText size={14} />
-                  </button>
-                  <button
-                    title="Download"
-                    className="p-2 rounded bg-emerald-600 text-white"
-                    onClick={handlePrint}
-                  >
-                    <Download size={14} />
-                  </button>
-
-                  <button
-                    title="Refresh"
-                    className="p-2 rounded bg-gray-600 text-white"
-                    onClick={() => alert("Refresh (UI only)")}
-                  >
-                    <RefreshCcw size={14} />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                {/* registered/others: show three actions (View already shown) + Download + Refresh */}
-                <button
-                  title="View"
-                  className="p-2 rounded bg-sky-600 text-white"
-                  onClick={() => alert("View (UI only)")}
-                >
-                  <FileText size={14} />
-                </button>
-                <button
-                  title="Download"
-                  className="p-2 rounded bg-emerald-600 text-white"
-                  onClick={handlePrint}
-                >
-                  <Download size={14} />
-                </button>
-
-                <button
-                  title="Refresh"
-                  className="p-2 rounded bg-gray-600 text-white"
-                  onClick={() => alert("Refresh (UI only)")}
-                >
-                  <RefreshCcw size={14} />
-                </button>
-              </>
-            )}
+              <button
+                title="Delete"
+                className="p-2 rounded bg-red-500 text-white"
+                onClick={() => onDelete(row.original.id)}
+              >
+                <Trash2 size={14} />
+              </button>
+              <button
+                title="Download"
+                className="p-2 rounded bg-emerald-600 text-white"
+                onClick={handlePrint}
+              >
+                <Download size={14} />
+              </button>
+            </div>
           </div>
         );
       },

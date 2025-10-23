@@ -119,6 +119,12 @@ const RoomDetailedInformationRegistration = ({
     dispatch(removeRoomDetailedInfomrationForRegistration(0));
   };
 
+  const handleClearRegistrationInformationsFields = () => {
+    ROOM_DETAILS_KEYS_REGISTRATION.forEach((key) => {
+      form.resetField(key as any);
+    });
+  };
+
   return (
     <div className=" bg-[#f2f2f2] p-8 pb-6 mb-6">
       <h3 className="font-medium mb-4 bg-gray-800 text-white px-3 py-2 rounded">
@@ -138,6 +144,7 @@ const RoomDetailedInformationRegistration = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -285,6 +292,7 @@ const RoomDetailedInformationRegistration = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger className="h-[35px] bg-[#e9ecef]">
@@ -916,7 +924,7 @@ const RoomDetailedInformationRegistration = ({
         <Button
           className="bg-yellow-500 hover:bg-yellow-600 h-[35px] rounded-[4px] cursor-pointer font-normal text-white"
           type="button"
-          onClick={() => form.reset()}
+          onClick={handleClearRegistrationInformationsFields}
         >
           Cancel
         </Button>

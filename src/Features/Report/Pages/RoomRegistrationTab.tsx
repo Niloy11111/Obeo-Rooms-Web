@@ -13,6 +13,7 @@ import {
   setRoomRegistrationFullData,
 } from "../reportSlices/reportSlice";
 
+import { toast } from "sonner";
 import AdditionalInformationRegistration from "../Components/RoomRegistrationTab/AdditionalInformationRegistration";
 import {
   completeFormDefaultValuesForRegistration,
@@ -65,6 +66,11 @@ const RoomRegistrationTab = () => {
     data: z.infer<typeof CompleteSchemaRegistration>
   ) => {
     try {
+      if (!roomDetails || roomDetails.length === 0) {
+        toast.error("Please add roomDetails");
+        return;
+      }
+
       // make shallow copy, remove all keys in ROOM_FIELDS_REGISTRATION
       const copy = { ...data } as Record<string, any>;
       ROOM_FIELDS_REGISTRATION.forEach((k) => delete copy[k]);
@@ -79,6 +85,7 @@ const RoomRegistrationTab = () => {
       // send payload...
 
       dispatch(setRoomRegistrationFullData(payload));
+      dispatch(clearRoomDetailedInfomrationsForRegistration());
       form.reset();
     } catch (error) {
       console.error("Error submitting form:", error);

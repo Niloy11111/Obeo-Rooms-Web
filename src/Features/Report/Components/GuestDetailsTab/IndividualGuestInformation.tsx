@@ -75,7 +75,7 @@ const IndividualGuestInformation = ({
         });
         return;
       }
-      form.reset();
+
       dispatch(setGuestDetailsData(guestDetailsValues as IGuestDetails));
       await onSubmitHandleGuestDetails(result.data);
     } catch (error) {
